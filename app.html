@@ -195,6 +195,116 @@ html, body {
   background: #1a1a2e;
 }
 
+/* ===== Magic Page Table ===== */
+.magic-section {
+  margin-bottom: 32px;
+}
+
+.magic-section-title {
+  font-family: Georgia, 'Times New Roman', serif;
+  color: var(--gold);
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 28px 0 6px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--gold-dim);
+  text-shadow: 0 0 10px rgba(240, 192, 64, 0.2);
+}
+
+.magic-section-title:first-child {
+  margin-top: 0;
+}
+
+.magic-sub-title {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  margin-bottom: 12px;
+  font-style: italic;
+}
+
+.magic-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-bottom: 8px;
+  font-size: 0.88rem;
+}
+
+.magic-table thead th {
+  background: rgba(240, 192, 64, 0.12);
+  color: var(--gold);
+  font-weight: 600;
+  padding: 8px 10px;
+  text-align: center;
+  border-bottom: 1px solid var(--gold-dim);
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+.magic-table thead th:first-child {
+  text-align: left;
+  border-radius: 6px 0 0 0;
+}
+
+.magic-table thead th:last-child {
+  text-align: left;
+  border-radius: 0 6px 0 0;
+}
+
+.magic-table tbody td {
+  padding: 6px 10px;
+  text-align: center;
+  vertical-align: top;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.magic-table tbody td.spell-name-cell {
+  text-align: left;
+  white-space: nowrap;
+}
+
+.magic-table tbody td:last-child {
+  text-align: left;
+}
+
+.magic-table tbody tr:nth-child(odd) td {
+  background: var(--dialog-odd);
+}
+
+.magic-table tbody tr:nth-child(even) td {
+  background: var(--dialog-even);
+}
+
+.magic-table .spell-name {
+  color: var(--gold);
+  font-weight: 600;
+}
+
+.magic-table .spell-name-en {
+  color: var(--text-dim);
+  font-size: 0.78rem;
+}
+
+.magic-note {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  padding: 10px 14px;
+  background: rgba(77, 166, 255, 0.05);
+  border-left: 3px solid var(--blue-dim);
+  border-radius: 0 6px 6px 0;
+}
+
+.magic-note .note-label {
+  color: var(--blue);
+  font-weight: 600;
+  margin-right: 4px;
+}
+
+.magic-note .note-chars {
+  color: #a0b8d8;
+}
+
 /* ===== Walkthrough Page Styling (original table structure) ===== */
 .walk-content {
   color: var(--text);
@@ -555,7 +665,9 @@ async function fetchPage(page) {
   let html = await resp.text();
 
   let content;
-  if (page.type === 'walk') {
+  if (page.id === 'magic') {
+    content = postProcessMagic(html);
+  } else if (page.type === 'walk') {
     content = extractWalkthrough(html, page);
   } else {
     content = extractInfo(html, page);
@@ -580,6 +692,157 @@ function extractInfo(html, page) {
   }
   if (!td) return '<p>콘텐츠를 불러올 수 없습니다.</p>';
   return stripPresentational(td.innerHTML);
+}
+
+function postProcessMagic(html) {
+  // Extract PRE content directly from raw HTML (PRE tag may be unclosed)
+  let preContent;
+  const mClosed = html.match(/<PRE[^>]*>([\s\S]*?)<\/PRE>/i);
+  if (mClosed) {
+    preContent = mClosed[1];
+  } else {
+    const mOpen = html.match(/<PRE[^>]*>([\s\S]*?)(?:<\/table>|<\/body>|$)/i);
+    if (!mOpen) return html;
+    preContent = mOpen[1];
+  }
+
+  let out = '<h1>마법</h1>';
+
+  const lines = preContent.split('\n');
+  let i = 0;
+
+  const isData = line => /\d+\s+\d+\s+(\d칸|전체)\s+(\d칸|전체)/.test(line);
+  const isHeader = line => /^\s*마법\s+레벨/.test(line);
+  const isNote = line => line.trim().startsWith('*');
+  const isEnOnly = line => /^\s*\([A-Za-z]+\)\s*$/.test(line);
+
+  function parseRow(line) {
+    const t = line.trim();
+    const r = t.match(/^(.*?)\s+(\d+)\s+(\d+)\s+(\S+칸|전체)\s+(\S+칸|전체)\s+(.+)$/);
+    return r ? { name: r[1].trim(), lv: r[2], mp: r[3], range: r[4], area: r[5], fx: r[6].trim() } : null;
+  }
+
+  function collectNotes() {
+    let chars = '', desc = '';
+    while (i < lines.length) {
+      const t = lines[i].trim();
+      if (!t) { i++; continue; }
+      if (t.startsWith('*사용가능한')) {
+        chars = t.replace(/^\*사용가능한\s*아군들\s*:\s*/, ''); i++;
+      } else if (t.startsWith('*설명')) {
+        desc = t.replace(/^\*설명\s*:\s*/, ''); i++;
+        while (i < lines.length && lines[i].trim() && !isNote(lines[i]) && !isData(lines[i]) && !isHeader(lines[i])) {
+          desc += ' ' + lines[i].trim(); i++;
+        }
+      } else break;
+    }
+    return { chars, desc };
+  }
+
+  function buildSpellHTML(korName, enName, rows, chars, desc) {
+    let h = '<table class="magic-table"><thead><tr>';
+    h += '<th>마법</th><th>Lv</th><th>MP</th><th>거리</th><th>범위</th><th>효과</th>';
+    h += '</tr></thead><tbody>';
+    rows.forEach((r, idx) => {
+      h += '<tr>';
+      if (idx === 0) {
+        h += `<td class="spell-name-cell" rowspan="${rows.length}"><span class="spell-name">${korName}</span>`;
+        if (enName) h += `<br><span class="spell-name-en">${enName}</span>`;
+        h += '</td>';
+      }
+      h += `<td>${r.lv}</td><td>${r.mp}</td><td>${r.range}</td><td>${r.area}</td><td>${r.fx}</td></tr>`;
+    });
+    h += '</tbody></table>';
+    if (chars || desc) {
+      h += '<div class="magic-note">';
+      if (chars) h += `<span class="note-label">사용 가능:</span> <span class="note-chars">${chars}</span><br>`;
+      if (desc) h += `<span class="note-label">설명:</span> ${desc}`;
+      h += '</div>';
+    }
+    return h;
+  }
+
+  function collectSpell(korName) {
+    let enName = '';
+    const rows = [];
+    // Collect data rows
+    while (i < lines.length && isData(lines[i])) {
+      const p = parseRow(lines[i]);
+      if (p) {
+        if (p.name.match(/^\([A-Za-z]+\)$/)) { enName = p.name; p.name = ''; }
+        else if (p.name && !korName) korName = p.name;
+        rows.push(p);
+      }
+      i++;
+    }
+    // Standalone English name after data
+    while (i < lines.length && !lines[i].trim()) i++;
+    if (i < lines.length && isEnOnly(lines[i])) { enName = enName || lines[i].trim(); i++; }
+    // More data rows after English name
+    while (i < lines.length && isData(lines[i])) {
+      const p = parseRow(lines[i]); if (p) rows.push(p); i++;
+    }
+    const { chars, desc } = collectNotes();
+    return buildSpellHTML(korName, enName, rows, chars, desc);
+  }
+
+  while (i < lines.length) {
+    while (i < lines.length && !lines[i].trim()) i++;
+    if (i >= lines.length) break;
+    const t = lines[i].trim();
+
+    // Column header - skip
+    if (isHeader(lines[i])) { i++; continue; }
+
+    // Data line - spell block
+    if (isData(lines[i])) { out += collectSpell(''); continue; }
+
+    // Standalone name line before (EnName) data line
+    if (!isNote(lines[i]) && t.length < 30 && !t.startsWith('(')) {
+      let j = i + 1;
+      while (j < lines.length && !lines[j].trim()) j++;
+      // Next line is data -> this is a Korean spell name
+      if (j < lines.length && isData(lines[j])) {
+        const savedName = t; i = j;
+        out += collectSpell(savedName);
+        continue;
+      }
+      // Next line is (EnOnly) then data -> also a spell name
+      if (j < lines.length && isEnOnly(lines[j])) {
+        let k = j + 1;
+        while (k < lines.length && !lines[k].trim()) k++;
+        if (k < lines.length && isData(lines[k])) {
+          const savedName = t;
+          const enName = lines[j].trim();
+          i = k;
+          // Collect data rows
+          const rows = [];
+          while (i < lines.length && isData(lines[i])) {
+            const p = parseRow(lines[i]); if (p) rows.push(p); i++;
+          }
+          const { chars, desc } = collectNotes();
+          out += buildSpellHTML(savedName, enName, rows, chars, desc);
+          continue;
+        }
+      }
+      // Otherwise it's a category title
+      out += `<div class="magic-section-title">${t}</div>`;
+      i++;
+      // Check for subtitle
+      while (i < lines.length && !lines[i].trim()) i++;
+      if (i < lines.length) {
+        const sub = lines[i].trim();
+        if (sub.startsWith('(') && !sub.match(/^\([A-Za-z]+\)\s*\d/)) {
+          out += `<div class="magic-sub-title">${sub}</div>`;
+          i++;
+        }
+      }
+      continue;
+    }
+
+    i++;
+  }
+  return out;
 }
 
 function stripPresentational(html) {
