@@ -875,12 +875,38 @@ function extractWalkthrough(html, page) {
   return '<div class="walk-content">' + content + '</div>';
 }
 
+// Map walkthrough filenames to SPA page IDs for [다음]/[이전] navigation
+const WALK_FILE_TO_ID = {};
+PAGES.filter(p => p && p.type === 'walk').forEach(p => {
+  // Extract just the filename from file path (e.g., "file/1.html" -> "1.html")
+  const fname = p.file.replace(/^file\//, '');
+  WALK_FILE_TO_ID[fname.toLowerCase()] = p.id;
+});
+
 function fixWalkPaths(html) {
   // Fix image src: pic/xxx -> file/pic/xxx and pic\xxx -> file/pic/xxx
   html = html.replace(/src="pic([/\\])/gi, 'src="file/pic/');
   html = html.replace(/src='pic([/\\])/gi, "src='file/pic/");
   // Handle unquoted: src=pic/xxx or src=pic\xxx
   html = html.replace(/src=pic([/\\])([^"'\s>]+)/gi, 'src="file/pic/$2"');
+
+  // Convert [다음]/[이전] navigation links to SPA navigation
+  html = html.replace(/href=["']([a-z0-9]+\.(html?))["'][^>]*>\s*\[다음\]/gi, (match, file) => {
+    const pageId = WALK_FILE_TO_ID[file.toLowerCase()];
+    if (pageId) {
+      const idx = NAV_PAGES.findIndex(p => p.id === pageId);
+      return `href="#${pageId}" onclick="navigateTo(${idx});return false">[다음]`;
+    }
+    return match;
+  });
+  html = html.replace(/href=["']([a-z0-9]+\.(html?))["'][^>]*>\s*\[이전\]/gi, (match, file) => {
+    const pageId = WALK_FILE_TO_ID[file.toLowerCase()];
+    if (pageId) {
+      const idx = NAV_PAGES.findIndex(p => p.id === pageId);
+      return `href="#${pageId}" onclick="navigateTo(${idx});return false">[이전]`;
+    }
+    return match;
+  });
 
   // Fix href for sub-dialogue links (e.g., a.html -> file/a.html)
   // Only fix relative links that don't already have file/ prefix
