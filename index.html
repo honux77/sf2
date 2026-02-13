@@ -1,93 +1,1170 @@
-<html>
+<!DOCTYPE html>
+<html lang="ko">
 <head>
-<title> 처음 </title>
-<body background="xiuying.jpg">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>샤이닝 포스 2 공략집</title>
+<style>
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
-<tr><!-- top row -->
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-<td valign="top"></td>
-<td align="right">
+:root {
+  --bg-deep: #0f0f1a;
+  --bg-sidebar: #1a1a2e;
+  --bg-content: #16213e;
+  --gold: #f0c040;
+  --gold-dim: #a8882e;
+  --blue: #4da6ff;
+  --blue-dim: #2d7fd4;
+  --text: #e0e0e0;
+  --text-dim: #8888a0;
+  --dialog-odd: #1e2a45;
+  --dialog-even: #16213e;
+}
 
-</td>
-</tr><tr>
-</tr>
-</table>
-<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
-<tr>
- <td colspan="2" height="1"
-     background="/extras/styles/webgui/purplepixel.jpg">
- </td>
-</tr>
+html, body {
+  height: 100%;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg-deep);
+  color: var(--text);
+  line-height: 1.7;
+}
 
-<tr>
- <td colspan="2" height="1"
-     background="/extras/styles/webgui/purplepixel.jpg">
- </td>
-</tr>
-</table>
-<table width="100%" border="0" cellspacing="0" height="50%" cellpadding="0" align="center">
-<tr><!-- row for verticalmenu and content -->
- <td width="120"
-     align="left"
-     valign="top">
-   <!-- extra table -->
-   <table border="0">
-   <tr><td><span class="verticalMenu"><a class="verticalMenu" href="샤이닝포스2공략.html">처음</a><br><a class="verticalMenu" href="faq.html">자주묻는질문</a><br><a class="verticalMenu" href="play.html">게임방법</a><br><a class="verticalMenu" href="char.html">캐릭터</a><br><a class="verticalMenu" href="magic.html">마법</a><br></span></td></tr>
-   <tr><td><A HREF="item.html">아이템</A></td></tr>
-   <tr><td><A HREF="mithril.html">미스릴</A></td></tr>
-    <tr><td><A HREF="file/pro.html">프롤로그</A></td></tr>
-   <tr><td><A HREF="file/1.html">공략 : 1/8</A></td></tr>
-<tr><td><A HREF="file/2.html">공략 : 2/8</A></td></tr>
-<tr><td><A HREF="file/3.html">공략 : 3/8</A></td></tr>
-<tr><td><A HREF="file/4.html">공략 : 4/8</A></td></tr>
-  <tr><td><A HREF="file/5.html">공략 : 5/8</A></td></tr>
-<tr><td><A HREF="file/6.html">공략 : 6/8</A></td></tr>
-<tr><td><A HREF="file/7.htm">공략 : 7/8</A></td></tr>
-<tr><td><A HREF="file/8.htm">공략 : 8/8</A></td></tr>
-  <tr><td><A HREF="file/epi.html">에필로그</A></td></tr>
-<tr><td><A HREF="credit.html">후기</A></td></tr>
+/* ===== Layout ===== */
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
 
-<tr><td height="30"></td></tr>
-   <tr><td></td></tr>
-   </table>
-   <!-- /extra table -->
- </td>
- <td align="left"
-     valign="top">
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 1001;
+  background: var(--bg-sidebar);
+  border: 1px solid var(--gold-dim);
+  color: var(--gold);
+  font-size: 1.4rem;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  line-height: 1;
+}
 
+.main {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
 
-<table cellpadding="0" cellspacing="0" border="0" width="100%">
-<tr>
-  <td valign="top" class="content"><div class="wobjectArticle" id="wobjectId27"><a name="27"></a><h1>샤이닝 포스 2 (빛의 군대 2)</h1>
-<P>
-제목 : 샤이닝 포스2 : 고대의 봉인<br>
-발매일 : 1993년 10월 1일<br>
-기종 : 메가드라이브<br>
-용량 : 16메가비트<br>
-제작사 : 소닉 소프트웨어 플래닝(현: 카멜롯 소프트웨어 플래닝)<br>
-발매사 : 세가<br><BR>
-샤이닝 포스2 공략입니다.<br>
-우선 제 공략은 영문판을 기준으로 만들었음을 알려드립니다.<br>
-일본판을 언젠가 해보게 되면 일본판에만 입수가 가능한<br>
-아이템들 공략으로도 언제 기회가 되면 업데이트를 하져~<br><Br>
-일단 게임상 막히신부분이 있으시다면 "자주묻는질문"란을 보시고 "아이템"란을 보세요.<br>
-아이템란은 무기/각종 아이템의 설명입니다.<br>
-미스릴은 미스릴찾는법과 미스릴무기설명이 나와있습니다.<br>
-캐릭터는 동료가 되는 캐릭터등 기타 캐릭터들이 설명되어있습니다.<br>
-마법은 캐릭터들이 쓸수 있는 마법에 대해 설명이 되어있습니다.<br>
-게임에 대한 비기나 대충 팁같은걸 원하신다면 게임방법란을 보세요.<br>
-일단 중점적인 공략을 보고싶으시다면 프롤로그부터 시작하시면 됩니다.<br>
-<br>
-*파일자체의 배포는 자유롭게 하실수 있습니다만 ZIP파일로 압축된파일이나 혹은 알집으로 분할압축된 형식으로 배포해주세요. 제 공략의 일부분이나 전체의 내용을 웹페이지에 올리시지 않으셨으면 좋겠습니다.<br> 제것만 있다면 아무렇지도 않지만 제것만 있는게 아니라 무기(Moogie)님께 허락받은것도 있거든요.~ 설혹, 틀린 부분이 있다하더라도 어떠한것도 수정하시지
-마시길 바랍니다.<br><BR>
+/* ===== Sidebar ===== */
+.sidebar {
+  width: 200px;
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--gold-dim);
+  overflow-y: auto;
+  flex-shrink: 0;
+  padding: 8px 0;
+}
 
-그럼 잘 사용하시길 바랍니다.~<br><BR>
+.sidebar-overlay {
+  display: none;
+}
 
-글쓴이 : KOF
+.sidebar nav a {
+  display: block;
+  padding: 9px 18px;
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 0.88rem;
+  border-left: 3px solid transparent;
+  transition: all 0.2s;
+}
 
+.sidebar nav a:hover {
+  color: var(--blue);
+  background: rgba(77, 166, 255, 0.08);
+  border-left-color: var(--blue);
+}
 
+.sidebar nav a.active {
+  color: var(--gold);
+  background: rgba(240, 192, 64, 0.1);
+  border-left-color: var(--gold);
+  font-weight: 600;
+}
 
+.sidebar nav .divider {
+  height: 1px;
+  background: var(--gold-dim);
+  margin: 6px 18px;
+  opacity: 0.4;
+}
 
-</table>
-</body> </html>
+/* ===== Content Area ===== */
+.content-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.content-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 28px 36px;
+  background: var(--bg-content);
+}
+
+.content-inner {
+  max-width: 820px;
+  margin: 0 auto;
+  opacity: 1;
+  transition: opacity 0.25s ease;
+}
+
+.content-inner.fading {
+  opacity: 0;
+}
+
+/* ===== Info Page Styling ===== */
+.content-inner h1 {
+  font-family: Georgia, 'Times New Roman', serif;
+  color: var(--gold);
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--gold-dim);
+  text-shadow: 0 0 15px rgba(240, 192, 64, 0.3);
+}
+
+.content-inner h2, .content-inner h3 {
+  font-family: Georgia, 'Times New Roman', serif;
+  color: var(--gold);
+  margin: 18px 0 10px;
+}
+
+.content-inner a {
+  color: var(--blue);
+  text-decoration: none;
+}
+
+.content-inner a:hover {
+  text-decoration: underline;
+  color: #7dc0ff;
+}
+
+.content-inner img {
+  max-width: 100%;
+  height: auto;
+}
+
+.content-inner pre {
+  background: #0d0d18;
+  border: 1px solid #2a2a40;
+  border-radius: 6px;
+  padding: 16px;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  white-space: pre-wrap;
+  color: var(--text-dim);
+}
+
+.content-inner b, .content-inner strong {
+  color: #f0d880;
+}
+
+.content-inner p {
+  margin-bottom: 8px;
+}
+
+.content-inner .hidden-note {
+  display: none;
+}
+
+/* Character portrait GIFs in info pages */
+.content-inner img[src*="pic/"][src$=".gif"] {
+  border-radius: 8px;
+  border: 2px solid var(--gold-dim);
+  margin: 4px 4px 4px 0;
+  vertical-align: middle;
+  background: #1a1a2e;
+}
+
+/* ===== Magic Page Table ===== */
+.magic-section {
+  margin-bottom: 32px;
+}
+
+.magic-section-title {
+  font-family: Georgia, 'Times New Roman', serif;
+  color: var(--gold);
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 28px 0 6px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--gold-dim);
+  text-shadow: 0 0 10px rgba(240, 192, 64, 0.2);
+}
+
+.magic-section-title:first-child {
+  margin-top: 0;
+}
+
+.magic-sub-title {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  margin-bottom: 12px;
+  font-style: italic;
+}
+
+.magic-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-bottom: 8px;
+  font-size: 0.88rem;
+}
+
+.magic-table thead th {
+  background: rgba(240, 192, 64, 0.12);
+  color: var(--gold);
+  font-weight: 600;
+  padding: 8px 10px;
+  text-align: center;
+  border-bottom: 1px solid var(--gold-dim);
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+.magic-table thead th:first-child {
+  text-align: left;
+  border-radius: 6px 0 0 0;
+}
+
+.magic-table thead th:last-child {
+  text-align: left;
+  border-radius: 0 6px 0 0;
+}
+
+.magic-table tbody td {
+  padding: 6px 10px;
+  text-align: center;
+  vertical-align: top;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.magic-table tbody td.spell-name-cell {
+  text-align: left;
+  white-space: nowrap;
+}
+
+.magic-table tbody td:last-child {
+  text-align: left;
+}
+
+.magic-table tbody tr:nth-child(odd) td {
+  background: var(--dialog-odd);
+}
+
+.magic-table tbody tr:nth-child(even) td {
+  background: var(--dialog-even);
+}
+
+.magic-table .spell-name {
+  color: var(--gold);
+  font-weight: 600;
+}
+
+.magic-table .spell-name-en {
+  color: var(--text-dim);
+  font-size: 0.78rem;
+}
+
+.magic-note {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  padding: 10px 14px;
+  background: rgba(77, 166, 255, 0.05);
+  border-left: 3px solid var(--blue-dim);
+  border-radius: 0 6px 6px 0;
+}
+
+.magic-note .note-label {
+  color: var(--blue);
+  font-weight: 600;
+  margin-right: 4px;
+}
+
+.magic-note .note-chars {
+  color: #a0b8d8;
+}
+
+/* ===== Walkthrough Page Styling (original table structure) ===== */
+.walk-content {
+  color: var(--text);
+}
+
+.walk-content table {
+  width: 100% !important;
+  border-collapse: separate;
+  border-spacing: 8px 2px;
+  border: none !important;
+  background: transparent !important;
+}
+
+.walk-content td {
+  background: transparent !important;
+  border: none !important;
+  color: var(--text) !important;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.92rem;
+  line-height: 1.7;
+}
+
+/* Dialogue rows: two-column (portrait + text) */
+.walk-content tr.walk-row td {
+  padding: 10px 12px;
+  vertical-align: top;
+}
+
+/* Portrait column */
+.walk-content tr.walk-row td:first-child {
+  width: 62px !important;
+  padding-right: 8px;
+}
+
+/* Portrait images */
+.walk-content tr.walk-row td:first-child img {
+  width: 52px !important;
+  height: 66px !important;
+  border-radius: 6px;
+  border: 2px solid var(--gold-dim) !important;
+  object-fit: cover;
+  background: #0d0d18;
+  margin: 0;
+  display: inline;
+}
+
+/* Placeholder portrait (none.jpg / none.jpeg) uses its own image */
+
+/* Dialog text column - alternate row colors */
+.walk-content tr.walk-row:nth-child(odd) td:last-child {
+  background: var(--dialog-odd) !important;
+  border-radius: 6px;
+}
+
+.walk-content tr.walk-row:nth-child(even) td:last-child {
+  background: var(--dialog-even) !important;
+  border-radius: 6px;
+}
+
+/* Character names in bold */
+.walk-content td b {
+  color: var(--gold);
+  font-size: 0.9rem;
+}
+
+/* Scene headers (.textB) */
+.walk-content td.textB,
+.walk-content td.textb {
+  text-align: center !important;
+  padding: 16px 20px !important;
+  font-family: Georgia, 'Times New Roman', serif;
+  color: var(--gold) !important;
+  font-weight: 700;
+  font-size: 1.05rem;
+  border-top: 1px solid var(--gold-dim) !important;
+  border-bottom: 1px solid var(--gold-dim) !important;
+  background: rgba(240, 192, 64, 0.05) !important;
+  text-shadow: 0 0 10px rgba(240, 192, 64, 0.2);
+}
+
+.walk-content td.textB a,
+.walk-content td.textb a {
+  color: var(--blue) !important;
+  text-decoration: none;
+}
+
+.walk-content td.textB a:hover,
+.walk-content td.textb a:hover {
+  text-decoration: underline;
+}
+
+/* Full-width text cells (guide text, narration) */
+.walk-content td[colspan="2"] {
+  padding: 14px 18px !important;
+  background: rgba(77, 166, 255, 0.06) !important;
+  border-left: 3px solid var(--blue) !important;
+  border-radius: 0 6px 6px 0;
+  line-height: 1.7;
+}
+
+/* Scene headers override (colspan=2 + textB) */
+.walk-content td.textB[colspan="2"],
+.walk-content td.textb[colspan="2"] {
+  background: rgba(240, 192, 64, 0.05) !important;
+  border-left: none !important;
+  border-radius: 0;
+}
+
+/* Narration (italic in colspan cells) */
+.walk-content td[colspan="2"] i {
+  color: #a0b8d8;
+  display: block;
+  text-align: center;
+  padding: 6px 0;
+}
+
+/* Screenshot images */
+.walk-content td[colspan="2"] img {
+  max-width: 100%;
+  height: auto !important;
+  width: auto !important;
+  border-radius: 6px;
+  border: 1px solid #2a2a50;
+  margin: 8px 0;
+  display: block;
+}
+
+/* Links */
+.walk-content a {
+  color: var(--blue);
+  text-decoration: none;
+}
+
+.walk-content a:hover {
+  text-decoration: underline;
+  color: #7dc0ff;
+}
+
+/* Bold text in walk content */
+.walk-content b, .walk-content strong {
+  color: #f0d880;
+}
+
+/* Center elements */
+.walk-content center {
+  margin: 8px 0;
+}
+
+/* ===== Loading / Error ===== */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  color: var(--text-dim);
+  font-size: 0.95rem;
+}
+
+.loading::before {
+  content: '';
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--gold-dim);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-right: 12px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.error-msg {
+  text-align: center;
+  padding: 40px 20px;
+  color: #ff6b6b;
+}
+
+/* ===== Scrollbar ===== */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-deep);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gold-dim);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -260px;
+    width: 260px;
+    height: 100%;
+    z-index: 1000;
+    transition: left 0.3s ease;
+    box-shadow: none;
+  }
+
+  .sidebar.open {
+    left: 0;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
+  }
+
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }
+
+  .sidebar-overlay.active {
+    display: block;
+  }
+
+  .content-area {
+    padding: 20px 16px;
+  }
+
+  header h1 {
+    font-size: 1.2rem;
+  }
+
+}
+
+/* ===== Modal ===== */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 2000;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+.modal {
+  background: var(--bg-content);
+  border: 1px solid var(--gold-dim);
+  border-radius: 8px;
+  width: 90%;
+  max-width: 700px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--gold-dim);
+}
+
+.modal-header h2 {
+  font-family: Georgia, 'Times New Roman', serif;
+  color: var(--gold);
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+}
+
+.modal-close:hover {
+  color: var(--gold);
+}
+
+.modal-body {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.modal-body .walk-content table[cellspacing="3"] td {
+  color: var(--text);
+}
+
+.modal-body .loading {
+  text-align: center;
+  color: var(--text-dim);
+  padding: 40px;
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="main">
+    <button class="hamburger" id="hamburgerBtn" aria-label="메뉴">&#9776;</button>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <aside class="sidebar" id="sidebar">
+      <nav id="sidebarNav"></nav>
+    </aside>
+    <div class="content-wrapper">
+      <div class="content-area">
+        <div class="content-inner" id="contentInner">
+          <div class="loading">불러오는 중...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="modalTitle"></h2>
+      <button class="modal-close" id="modalClose">&times;</button>
+    </div>
+    <div class="modal-body" id="modalBody">
+      <div class="loading">불러오는 중...</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const PAGES = [
+  { id: 'home',    file: '샤이닝포스2공략.html', name: '처음',        type: 'info' },
+  { id: 'faq',     file: 'faq.html',            name: '자주묻는질문',  type: 'info' },
+  { id: 'play',    file: 'play.html',           name: '게임방법',      type: 'info' },
+  { id: 'char',    file: 'char.html',           name: '캐릭터',       type: 'info' },
+  { id: 'magic',   file: 'magic.html',          name: '마법',         type: 'info' },
+  { id: 'item',    file: 'item.html',           name: '아이템',       type: 'info' },
+  { id: 'mithril', file: 'mithril.html',        name: '미스릴',       type: 'info' },
+  null, // divider
+  { id: 'pro',     file: 'file/pro.html',       name: '프롤로그',      type: 'walk' },
+  { id: 'ch1',     file: 'file/1.html',         name: '공략 1/8',     type: 'walk' },
+  { id: 'ch2',     file: 'file/2.html',         name: '공략 2/8',     type: 'walk' },
+  { id: 'ch3',     file: 'file/3.html',         name: '공략 3/8',     type: 'walk' },
+  { id: 'ch4',     file: 'file/4.html',         name: '공략 4/8',     type: 'walk' },
+  { id: 'ch5',     file: 'file/5.html',         name: '공략 5/8',     type: 'walk' },
+  { id: 'ch6',     file: 'file/6.html',         name: '공략 6/8',     type: 'walk' },
+  { id: 'ch7',     file: 'file/7.htm',          name: '공략 7/8',     type: 'walk' },
+  { id: 'ch8',     file: 'file/8.htm',          name: '공략 8/8',     type: 'walk' },
+  { id: 'epi',     file: 'file/epi.html',       name: '에필로그',      type: 'walk' },
+  null, // divider
+  { id: 'credit',  file: 'credit.html',         name: '후기',         type: 'info' },
+];
+
+const NAV_PAGES = PAGES.filter(p => p !== null);
+
+const contentEl = document.getElementById('contentInner');
+const sidebarNav = document.getElementById('sidebarNav');
+const sidebar = document.getElementById('sidebar');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+
+let currentIndex = 0;
+const cache = {};
+
+// ===== Build sidebar =====
+function buildSidebar() {
+  PAGES.forEach(page => {
+    if (page === null) {
+      const div = document.createElement('div');
+      div.className = 'divider';
+      sidebarNav.appendChild(div);
+      return;
+    }
+    const a = document.createElement('a');
+    a.href = '#' + page.id;
+    a.textContent = page.name;
+    a.dataset.id = page.id;
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      const idx = NAV_PAGES.findIndex(p => p.id === page.id);
+      if (idx !== -1) navigateTo(idx);
+      closeSidebar();
+    });
+    sidebarNav.appendChild(a);
+  });
+}
+
+// ===== Sidebar mobile toggle =====
+function openSidebar() {
+  sidebar.classList.add('open');
+  sidebarOverlay.classList.add('active');
+}
+
+function closeSidebar() {
+  sidebar.classList.remove('open');
+  sidebarOverlay.classList.remove('active');
+}
+
+hamburgerBtn.addEventListener('click', () => {
+  sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
+});
+sidebarOverlay.addEventListener('click', closeSidebar);
+
+// ===== Update UI state =====
+function updateUI() {
+  const page = NAV_PAGES[currentIndex];
+
+  sidebarNav.querySelectorAll('a').forEach(a => {
+    a.classList.toggle('active', a.dataset.id === page.id);
+  });
+
+  history.replaceState(null, '', '#' + page.id);
+  document.querySelector('.content-area').scrollTop = 0;
+
+  // Scroll active sidebar item into view
+  const activeLink = sidebarNav.querySelector('a.active');
+  if (activeLink) activeLink.scrollIntoView({ block: 'nearest' });
+}
+
+// ===== Fetch and extract content =====
+async function fetchPage(page) {
+  if (cache[page.id]) return cache[page.id];
+
+  const resp = await fetch(page.file);
+  if (!resp.ok) throw new Error(`${resp.status} ${resp.statusText}`);
+  let html = await resp.text();
+
+  let content;
+  if (page.id === 'magic') {
+    content = postProcessMagic(html);
+  } else if (page.type === 'walk') {
+    content = extractWalkthrough(html, page);
+  } else {
+    content = extractInfo(html, page);
+  }
+
+  cache[page.id] = content;
+  return content;
+}
+
+function extractInfo(html, page) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html');
+
+  let td = doc.querySelector('td.content');
+  if (!td) {
+    // Fallback: find the wobjectArticle div
+    const div = doc.querySelector('.wobjectArticle');
+    if (div) return stripPresentational(div.innerHTML);
+    // Last resort: last td
+    const tds = doc.querySelectorAll('td');
+    td = tds[tds.length - 1];
+  }
+  if (!td) return '<p>콘텐츠를 불러올 수 없습니다.</p>';
+  return stripPresentational(td.innerHTML);
+}
+
+function postProcessMagic(html) {
+  // Extract PRE content directly from raw HTML (PRE tag may be unclosed)
+  let preContent;
+  const mClosed = html.match(/<PRE[^>]*>([\s\S]*?)<\/PRE>/i);
+  if (mClosed) {
+    preContent = mClosed[1];
+  } else {
+    const mOpen = html.match(/<PRE[^>]*>([\s\S]*?)(?:<\/table>|<\/body>|$)/i);
+    if (!mOpen) return html;
+    preContent = mOpen[1];
+  }
+
+  let out = '<h1>마법</h1>';
+
+  const lines = preContent.split('\n');
+  let i = 0;
+
+  const isData = line => /\d+\s+\d+\s+(\d칸|전체)\s+(\d칸|전체)/.test(line);
+  const isHeader = line => /^\s*마법\s+레벨/.test(line);
+  const isNote = line => line.trim().startsWith('*');
+  const isEnOnly = line => /^\s*\([A-Za-z]+\)\s*$/.test(line);
+
+  function parseRow(line) {
+    const t = line.trim();
+    const r = t.match(/^(.*?)\s+(\d+)\s+(\d+)\s+(\S+칸|전체)\s+(\S+칸|전체)\s+(.+)$/);
+    return r ? { name: r[1].trim(), lv: r[2], mp: r[3], range: r[4], area: r[5], fx: r[6].trim() } : null;
+  }
+
+  function collectNotes() {
+    let chars = '', desc = '';
+    while (i < lines.length) {
+      const t = lines[i].trim();
+      if (!t) { i++; continue; }
+      if (t.startsWith('*사용가능한')) {
+        chars = t.replace(/^\*사용가능한\s*아군들\s*:\s*/, ''); i++;
+      } else if (t.startsWith('*설명')) {
+        desc = t.replace(/^\*설명\s*:\s*/, ''); i++;
+        while (i < lines.length && lines[i].trim() && !isNote(lines[i]) && !isData(lines[i]) && !isHeader(lines[i])) {
+          desc += ' ' + lines[i].trim(); i++;
+        }
+      } else break;
+    }
+    return { chars, desc };
+  }
+
+  function buildSpellHTML(korName, enName, rows, chars, desc) {
+    let h = '<table class="magic-table"><thead><tr>';
+    h += '<th>마법</th><th>Lv</th><th>MP</th><th>거리</th><th>범위</th><th>효과</th>';
+    h += '</tr></thead><tbody>';
+    rows.forEach((r, idx) => {
+      h += '<tr>';
+      if (idx === 0) {
+        h += `<td class="spell-name-cell" rowspan="${rows.length}"><span class="spell-name">${korName}</span>`;
+        if (enName) h += `<br><span class="spell-name-en">${enName}</span>`;
+        h += '</td>';
+      }
+      h += `<td>${r.lv}</td><td>${r.mp}</td><td>${r.range}</td><td>${r.area}</td><td>${r.fx}</td></tr>`;
+    });
+    h += '</tbody></table>';
+    if (chars || desc) {
+      h += '<div class="magic-note">';
+      if (chars) h += `<span class="note-label">사용 가능:</span> <span class="note-chars">${chars}</span><br>`;
+      if (desc) h += `<span class="note-label">설명:</span> ${desc}`;
+      h += '</div>';
+    }
+    return h;
+  }
+
+  function collectSpell(korName) {
+    let enName = '';
+    const rows = [];
+    // Collect data rows
+    while (i < lines.length && isData(lines[i])) {
+      const p = parseRow(lines[i]);
+      if (p) {
+        if (p.name.match(/^\([A-Za-z]+\)$/)) { enName = p.name; p.name = ''; }
+        else if (p.name && !korName) korName = p.name;
+        rows.push(p);
+      }
+      i++;
+    }
+    // Standalone English name after data
+    while (i < lines.length && !lines[i].trim()) i++;
+    if (i < lines.length && isEnOnly(lines[i])) { enName = enName || lines[i].trim(); i++; }
+    // More data rows after English name
+    while (i < lines.length && isData(lines[i])) {
+      const p = parseRow(lines[i]); if (p) rows.push(p); i++;
+    }
+    const { chars, desc } = collectNotes();
+    return buildSpellHTML(korName, enName, rows, chars, desc);
+  }
+
+  while (i < lines.length) {
+    while (i < lines.length && !lines[i].trim()) i++;
+    if (i >= lines.length) break;
+    const t = lines[i].trim();
+
+    // Column header - skip
+    if (isHeader(lines[i])) { i++; continue; }
+
+    // Data line - spell block
+    if (isData(lines[i])) { out += collectSpell(''); continue; }
+
+    // Standalone name line before (EnName) data line
+    if (!isNote(lines[i]) && t.length < 30 && !t.startsWith('(')) {
+      let j = i + 1;
+      while (j < lines.length && !lines[j].trim()) j++;
+      // Next line is data -> this is a Korean spell name
+      if (j < lines.length && isData(lines[j])) {
+        const savedName = t; i = j;
+        out += collectSpell(savedName);
+        continue;
+      }
+      // Next line is (EnOnly) then data -> also a spell name
+      if (j < lines.length && isEnOnly(lines[j])) {
+        let k = j + 1;
+        while (k < lines.length && !lines[k].trim()) k++;
+        if (k < lines.length && isData(lines[k])) {
+          const savedName = t;
+          const enName = lines[j].trim();
+          i = k;
+          // Collect data rows
+          const rows = [];
+          while (i < lines.length && isData(lines[i])) {
+            const p = parseRow(lines[i]); if (p) rows.push(p); i++;
+          }
+          const { chars, desc } = collectNotes();
+          out += buildSpellHTML(savedName, enName, rows, chars, desc);
+          continue;
+        }
+      }
+      // Otherwise it's a category title
+      out += `<div class="magic-section-title">${t}</div>`;
+      i++;
+      // Check for subtitle
+      while (i < lines.length && !lines[i].trim()) i++;
+      if (i < lines.length) {
+        const sub = lines[i].trim();
+        if (sub.startsWith('(') && !sub.match(/^\([A-Za-z]+\)\s*\d/)) {
+          out += `<div class="magic-sub-title">${sub}</div>`;
+          i++;
+        }
+      }
+      continue;
+    }
+
+    i++;
+  }
+  return out;
+}
+
+function stripPresentational(html) {
+  html = html.replace(/\s*bgcolor\s*=\s*["']?[^"'\s>]+["']?/gi, '');
+  html = html.replace(/\s*background\s*=\s*["']?[^"'\s>]+["']?/gi, '');
+  return html;
+}
+
+function extractWalkthrough(html, page) {
+  // Use regex to find the content between <TD class=text> ... </TD>
+  // This preserves the original malformed HTML which browsers render correctly
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html');
+
+  // Find td.text which wraps the main walkthrough content
+  let td = doc.querySelector('td.text');
+  if (!td) {
+    // Fallback: try finding the cellspacing=3 table
+    const table = doc.querySelector('table[cellspacing="3"]');
+    if (table) td = table;
+  }
+  if (!td) {
+    // Some sub-dialog files are missing the expected wrappers; use the first table or body
+    const tableAny = doc.querySelector('table');
+    if (tableAny) td = tableAny;
+  }
+  if (!td) {
+    const body = doc.body;
+    if (body) td = body;
+  }
+  if (!td) return '<p>콘텐츠를 불러올 수 없습니다.</p>';
+
+  let content;
+  if (td.tagName && td.tagName.toLowerCase() === 'table') {
+    // Preserve table wrapper so TD/TR layout stays intact
+    content = td.outerHTML;
+  } else {
+    content = td.innerHTML;
+  }
+
+  // Fix image paths: walkthrough files are in file/ directory
+  // Images reference pic/... so we need file/pic/...
+  content = fixWalkPaths(content);
+  content = normalizeWalkRows(content);
+
+  return '<div class="walk-content">' + content + '</div>';
+}
+
+// Map walkthrough filenames to SPA page IDs for [다음]/[이전] navigation
+const WALK_FILE_TO_ID = {};
+PAGES.filter(p => p && p.type === 'walk').forEach(p => {
+  // Extract just the filename from file path (e.g., "file/1.html" -> "1.html")
+  const fname = p.file.replace(/^file\//, '');
+  WALK_FILE_TO_ID[fname.toLowerCase()] = p.id;
+});
+
+function fixWalkPaths(html) {
+  // Normalize placeholder portrait filename
+  html = html.replace(/pic([/\\])none\.jpg/gi, 'pic/none.jpeg');
+
+  // Fix image src: pic/xxx -> file/pic/xxx and pic\xxx -> file/pic/xxx
+  html = html.replace(/src="pic([/\\])/gi, 'src="file/pic/');
+  html = html.replace(/src='pic([/\\])/gi, "src='file/pic/");
+  // Handle unquoted: src=pic/xxx or src=pic\xxx
+  html = html.replace(/src=pic([/\\])([^"'\s>]+)/gi, 'src="file/pic/$2"');
+
+  // Convert [다음]/[이전] navigation links to SPA navigation
+  html = html.replace(/href=["']([a-z0-9]+\.(html?))["'][^>]*>\s*\[다음\]/gi, (match, file) => {
+    const pageId = WALK_FILE_TO_ID[file.toLowerCase()];
+    if (pageId) {
+      const idx = NAV_PAGES.findIndex(p => p.id === pageId);
+      return `href="#${pageId}" onclick="navigateTo(${idx});return false">[다음]`;
+    }
+    return match;
+  });
+  html = html.replace(/href=["']([a-z0-9]+\.(html?))["'][^>]*>\s*\[이전\]/gi, (match, file) => {
+    const pageId = WALK_FILE_TO_ID[file.toLowerCase()];
+    if (pageId) {
+      const idx = NAV_PAGES.findIndex(p => p.id === pageId);
+      return `href="#${pageId}" onclick="navigateTo(${idx});return false">[이전]`;
+    }
+    return match;
+  });
+
+  // Convert sub-dialogue links to modal openers
+  html = html.replace(/href=["']([a-z0-9]+\.(html?))["']/gi, (match, file) => {
+    return `href="#" onclick="openSubDialog('file/${file}',this);return false"`;
+  });
+
+  // Insert placeholder image in empty portrait TDs
+  // Empty TD before a textG dialogue TD means a missing portrait
+  html = html.replace(/<TD(\s+width\s*=\s*64)?\s*>\s*<\/TD>(\s*<TD\s+class=textG)/gi,
+    '<TD$1><IMG height=78 src="file/pic/none.jpg" width=62></TD>$2');
+
+  // Strip presentational attributes that conflict with dark theme
+  html = html.replace(/\s*bgcolor\s*=\s*["']?[^"'\s>]+["']?/gi, '');
+  html = html.replace(/\s*background\s*=\s*["']?[^"'\s>]+["']?/gi, '');
+  html = html.replace(/\s*bordercolor\w*\s*=\s*["']?[^"'\s>]+["']?/gi, '');
+  html = html.replace(/\s*border\s*=\s*["']?[^"'\s>]+["']?/gi, '');
+
+  return html;
+}
+
+function normalizeWalkRows(html) {
+  // Ensure dialogue rows have vAlign=top so portrait/text layout styles apply.
+  html = html.replace(/<TR(?![^>]*valign)[^>]*>([\s\S]*?)<\/TR>/gi, (match, body) => {
+    if (body.toLowerCase().includes('class=textg')) {
+      return `<TR vAlign=top class="walk-row">${body}</TR>`;
+    }
+    return match;
+  });
+
+  // Add walk-row class to existing dialogue rows.
+  html = html.replace(/<TR[^>]*vAlign=top[^>]*>([\s\S]*?)<\/TR>/gi, (match, body) => {
+    if (!body.toLowerCase().includes('class=textg')) return match;
+    if (/class\\s*=\\s*\"[^\"]*walk-row[^\"]*\"/i.test(match)) return match;
+    if (/class\\s*=\\s*'[^\']*walk-row[^\']*'/i.test(match)) return match;
+    if (/class\\s*=\\s*walk-row/i.test(match)) return match;
+    // Inject class attribute
+    if (/class\\s*=\\s*\"[^\"]*\"/i.test(match)) {
+      return match.replace(/class\\s*=\\s*\"([^\"]*)\"/i, (m, cls) => `class=\"${cls} walk-row\"`);
+    }
+    if (/class\\s*=\\s*'[^']*'/i.test(match)) {
+      return match.replace(/class\\s*=\\s*'([^']*)'/i, (m, cls) => `class='${cls} walk-row'`);
+    }
+    return match.replace(/<TR/i, '<TR class=\"walk-row\"');
+  });
+
+  // Wrap orphan dialogue cells (portrait + text) into a single TR so text sits beside the portrait.
+  return html.replace(/(\s*<TD[^>]*width\s*=\s*64[^>]*>[\s\S]*?<\/TD>\s*<TD[^>]*class\s*=\s*textG[\s\S]*?<\/TD>)/gi,
+    (block, cells, offset, str) => {
+      const before = str.slice(Math.max(0, offset - 200), offset);
+      const lastTr = before.lastIndexOf('<TR');
+      const lastEndTr = before.lastIndexOf('</TR>');
+      // If we're already inside a TR, don't wrap.
+      if (lastTr !== -1 && lastTr > lastEndTr) return block;
+      return `<TR vAlign=top class="walk-row">${cells}</TR>`;
+    });
+}
+
+// ===== Navigate =====
+async function navigateTo(index) {
+  if (index < 0 || index >= NAV_PAGES.length) return;
+
+  const page = NAV_PAGES[index];
+  currentIndex = index;
+
+  // Fade out
+  contentEl.classList.add('fading');
+  await new Promise(r => setTimeout(r, 200));
+
+  try {
+    contentEl.innerHTML = '<div class="loading">불러오는 중...</div>';
+    contentEl.classList.remove('fading');
+
+    const content = await fetchPage(page);
+
+    contentEl.classList.add('fading');
+    await new Promise(r => setTimeout(r, 80));
+    contentEl.innerHTML = content;
+    contentEl.classList.remove('fading');
+  } catch (err) {
+    contentEl.innerHTML = `<div class="error-msg">페이지를 불러올 수 없습니다.<br><small>${err.message}</small></div>`;
+    contentEl.classList.remove('fading');
+  }
+
+  updateUI();
+}
+
+// ===== Event listeners =====
+document.addEventListener('keydown', (e) => {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+  if (modalOverlay.classList.contains('active')) return;
+  if (e.key === 'ArrowLeft') navigateTo(currentIndex - 1);
+  if (e.key === 'ArrowRight') navigateTo(currentIndex + 1);
+});
+
+// ===== Modal for sub-dialogue =====
+const modalOverlay = document.getElementById('modalOverlay');
+const modalTitle = document.getElementById('modalTitle');
+const modalBody = document.getElementById('modalBody');
+const modalClose = document.getElementById('modalClose');
+
+async function openSubDialog(url, linkEl) {
+  // Get link text as modal title
+  const title = linkEl ? linkEl.textContent.trim() : '';
+  modalTitle.textContent = title;
+  modalBody.innerHTML = '<div class="loading">불러오는 중...</div>';
+  modalOverlay.classList.add('active');
+
+  try {
+    const resp = await fetch(url);
+    const html = await resp.text();
+    const content = extractWalkthrough(html, { file: url, type: 'walk' });
+    modalBody.innerHTML = content;
+  } catch (e) {
+    modalBody.innerHTML = '<p>콘텐츠를 불러올 수 없습니다.</p>';
+  }
+}
+
+function closeModal() {
+  modalOverlay.classList.remove('active');
+  modalBody.innerHTML = '';
+}
+
+modalClose.addEventListener('click', closeModal);
+modalOverlay.addEventListener('click', (e) => {
+  if (e.target === modalOverlay) closeModal();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && modalOverlay.classList.contains('active')) closeModal();
+});
+
+// ===== Hash routing =====
+function getIndexFromHash() {
+  const hash = location.hash.replace('#', '');
+  if (!hash) return 0;
+  const idx = NAV_PAGES.findIndex(p => p.id === hash);
+  return idx >= 0 ? idx : 0;
+}
+
+window.addEventListener('hashchange', () => {
+  const idx = getIndexFromHash();
+  if (idx !== currentIndex) navigateTo(idx);
+});
+
+// ===== Init =====
+buildSidebar();
+navigateTo(getIndexFromHash());
+</script>
+</body>
+</html>
