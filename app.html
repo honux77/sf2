@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>샤이닝 포스 2 공략집</title>
+<style>
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg-deep: #0f0f1a;
+  --bg-sidebar: #1a1a2e;
+  --bg-content: #16213e;
+  --gold: #f0c040;
+  --gold-dim: #a8882e;
+  --blue: #4da6ff;
+  --blue-dim: #2d7fd4;
+  --text: #e0e0e0;
+  --text-dim: #8888a0;
+  --dialog-odd: #1e2a45;
+  --dialog-even: #16213e;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg-deep);
+  color: var(--text);
+  line-height: 1.7;
+}
+
+/* ===== Layout ===== */
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 1001;
+  background: var(--bg-sidebar);
+  border: 1px solid var(--gold-dim);
+  color: var(--gold);
+  font-size: 1.4rem;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.main {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ===== Sidebar ===== */
+.sidebar {
+  width: 200px;
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--gold-dim);
+  overflow-y: auto;
+  flex-shrink: 0;
+  padding: 8px 0;
+}
+
+.sidebar-overlay {
+  display: none;
+}
+
+.sidebar nav a {
+  display: block;
+  padding: 9px 18px;
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 0.88rem;
+  border-left: 3px solid transparent;
+  transition: all 0.2s;
+}
+
+.sidebar nav a:hover {
+  color: var(--blue);
+  background: rgba(77, 166, 255, 0.08);
+  border-left-color: var(--blue);
+}
+
+.sidebar nav a.active {
+  color: var(--gold);
+  background: rgba(240, 192, 64, 0.1);
+  border-left-color: var(--gold);
+  font-weight: 600;
+}
+
+.sidebar nav .divider {
+  height: 1px;
+  background: var(--gold-dim);
+  margin: 6px 18px;
+  opacity: 0.4;
+}
+
+/* ===== Content Area ===== */
+.content-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.content-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 28px 36px;
+  background: var(--bg-content);
+}
+
+.content-inner {
+  max-width: 820px;
+  margin: 0 auto;
+  opacity: 1;
+  transition: opacity 0.25s ease;
+}
+
+.content-inner.fading {
+  opacity: 0;
+}
+
+/* ===== Info Page Styling ===== */
+.content-inner h1 {
+  font-family: Georgia, 'Times New Roman', serif;
+  color: var(--gold);
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--gold-dim);
+  text-shadow: 0 0 15px rgba(240, 192, 64, 0.3);
+}
+
+.content-inner h2, .content-inner h3 {
+  font-family: Georgia, 'Times New Roman', serif;
+  color: var(--gold);
+  margin: 18px 0 10px;
+}
+
+.content-inner a {
+  color: var(--blue);
+  text-decoration: none;
+}
+
+.content-inner a:hover {
+  text-decoration: underline;
+  color: #7dc0ff;
+}
+
+.content-inner img {
+  max-width: 100%;
+  height: auto;
+}
+
+.content-inner pre {
+  background: #0d0d18;
+  border: 1px solid #2a2a40;
+  border-radius: 6px;
+  padding: 16px;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  white-space: pre-wrap;
+  color: var(--text-dim);
+}
+
+.content-inner b, .content-inner strong {
+  color: #f0d880;
+}
+
+.content-inner p {
+  margin-bottom: 8px;
+}
+
+/* Character portrait GIFs in info pages */
+.content-inner img[src*="pic/"][src$=".gif"] {
+  border-radius: 8px;
+  border: 2px solid var(--gold-dim);
+  margin: 4px 4px 4px 0;
+  vertical-align: middle;
+  background: #1a1a2e;
+}
+
+/* ===== Walkthrough Page Styling (original table structure) ===== */
+.walk-content {
+  color: var(--text);
+}
+
+.walk-content table {
+  width: 100% !important;
+  border-collapse: separate;
+  border-spacing: 0 2px;
+  border: none !important;
+  background: transparent !important;
+}
+
+.walk-content td {
+  background: transparent !important;
+  border: none !important;
+  color: var(--text) !important;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.92rem;
+  line-height: 1.7;
+}
+
+/* Dialogue rows: two-column (portrait + text) */
+.walk-content tr[valign="top"] td {
+  padding: 10px 12px;
+  vertical-align: top;
+}
+
+/* Portrait column */
+.walk-content tr[valign="top"] td:first-child {
+  width: 62px !important;
+  padding-right: 0;
+}
+
+/* Portrait images */
+.walk-content tr[valign="top"] td:first-child img {
+  width: 52px !important;
+  height: 66px !important;
+  border-radius: 6px;
+  border: 2px solid var(--gold-dim) !important;
+  object-fit: cover;
+  background: #0d0d18;
+  margin: 0;
+  display: inline;
+}
+
+/* Dialog text column - alternate row colors */
+.walk-content tr[valign="top"]:nth-child(odd) td:last-child {
+  background: var(--dialog-odd) !important;
+  border-radius: 6px;
+}
+
+.walk-content tr[valign="top"]:nth-child(even) td:last-child {
+  background: var(--dialog-even) !important;
+  border-radius: 6px;
+}
+
+/* Character names in bold */
+.walk-content td b {
+  color: var(--gold);
+  font-size: 0.9rem;
+}
+
+/* Scene headers (.textB) */
+.walk-content td.textB,
+.walk-content td.textb {
+  text-align: center !important;
+  padding: 16px 20px !important;
+  font-family: Georgia, 'Times New Roman', serif;
+  color: var(--gold) !important;
+  font-weight: 700;
+  font-size: 1.05rem;
+  border-top: 1px solid var(--gold-dim) !important;
+  border-bottom: 1px solid var(--gold-dim) !important;
+  background: rgba(240, 192, 64, 0.05) !important;
+  text-shadow: 0 0 10px rgba(240, 192, 64, 0.2);
+}
+
+.walk-content td.textB a,
+.walk-content td.textb a {
+  color: var(--blue) !important;
+  text-decoration: none;
+}
+
+.walk-content td.textB a:hover,
+.walk-content td.textb a:hover {
+  text-decoration: underline;
+}
+
+/* Full-width text cells (guide text, narration) */
+.walk-content td[colspan="2"] {
+  padding: 14px 18px !important;
+  background: rgba(77, 166, 255, 0.06) !important;
+  border-left: 3px solid var(--blue) !important;
+  border-radius: 0 6px 6px 0;
+  line-height: 1.7;
+}
+
+/* Scene headers override (colspan=2 + textB) */
+.walk-content td.textB[colspan="2"],
+.walk-content td.textb[colspan="2"] {
+  background: rgba(240, 192, 64, 0.05) !important;
+  border-left: none !important;
+  border-radius: 0;
+}
+
+/* Narration (italic in colspan cells) */
+.walk-content td[colspan="2"] i {
+  color: #a0b8d8;
+  display: block;
+  text-align: center;
+  padding: 6px 0;
+}
+
+/* Screenshot images */
+.walk-content td[colspan="2"] img {
+  max-width: 100%;
+  height: auto !important;
+  width: auto !important;
+  border-radius: 6px;
+  border: 1px solid #2a2a50;
+  margin: 8px 0;
+  display: block;
+}
+
+/* Links */
+.walk-content a {
+  color: var(--blue);
+  text-decoration: none;
+}
+
+.walk-content a:hover {
+  text-decoration: underline;
+  color: #7dc0ff;
+}
+
+/* Bold text in walk content */
+.walk-content b, .walk-content strong {
+  color: #f0d880;
+}
+
+/* Center elements */
+.walk-content center {
+  margin: 8px 0;
+}
+
+/* ===== Loading / Error ===== */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  color: var(--text-dim);
+  font-size: 0.95rem;
+}
+
+.loading::before {
+  content: '';
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--gold-dim);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-right: 12px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.error-msg {
+  text-align: center;
+  padding: 40px 20px;
+  color: #ff6b6b;
+}
+
+/* ===== Scrollbar ===== */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-deep);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gold-dim);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -260px;
+    width: 260px;
+    height: 100%;
+    z-index: 1000;
+    transition: left 0.3s ease;
+    box-shadow: none;
+  }
+
+  .sidebar.open {
+    left: 0;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
+  }
+
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }
+
+  .sidebar-overlay.active {
+    display: block;
+  }
+
+  .content-area {
+    padding: 20px 16px;
+  }
+
+  header h1 {
+    font-size: 1.2rem;
+  }
+
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="main">
+    <button class="hamburger" id="hamburgerBtn" aria-label="메뉴">&#9776;</button>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <aside class="sidebar" id="sidebar">
+      <nav id="sidebarNav"></nav>
+    </aside>
+    <div class="content-wrapper">
+      <div class="content-area">
+        <div class="content-inner" id="contentInner">
+          <div class="loading">불러오는 중...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const PAGES = [
+  { id: 'home',    file: '샤이닝포스2공략.html', name: '처음',        type: 'info' },
+  { id: 'faq',     file: 'faq.html',            name: '자주묻는질문',  type: 'info' },
+  { id: 'play',    file: 'play.html',           name: '게임방법',      type: 'info' },
+  { id: 'char',    file: 'char.html',           name: '캐릭터',       type: 'info' },
+  { id: 'magic',   file: 'magic.html',          name: '마법',         type: 'info' },
+  { id: 'item',    file: 'item.html',           name: '아이템',       type: 'info' },
+  { id: 'mithril', file: 'mithril.html',        name: '미스릴',       type: 'info' },
+  null, // divider
+  { id: 'pro',     file: 'file/pro.html',       name: '프롤로그',      type: 'walk' },
+  { id: 'ch1',     file: 'file/1.html',         name: '공략 1/8',     type: 'walk' },
+  { id: 'ch2',     file: 'file/2.html',         name: '공략 2/8',     type: 'walk' },
+  { id: 'ch3',     file: 'file/3.html',         name: '공략 3/8',     type: 'walk' },
+  { id: 'ch4',     file: 'file/4.html',         name: '공략 4/8',     type: 'walk' },
+  { id: 'ch5',     file: 'file/5.html',         name: '공략 5/8',     type: 'walk' },
+  { id: 'ch6',     file: 'file/6.html',         name: '공략 6/8',     type: 'walk' },
+  { id: 'ch7',     file: 'file/7.htm',          name: '공략 7/8',     type: 'walk' },
+  { id: 'ch8',     file: 'file/8.htm',          name: '공략 8/8',     type: 'walk' },
+  { id: 'epi',     file: 'file/epi.html',       name: '에필로그',      type: 'walk' },
+  null, // divider
+  { id: 'credit',  file: 'credit.html',         name: '후기',         type: 'info' },
+];
+
+const NAV_PAGES = PAGES.filter(p => p !== null);
+
+const contentEl = document.getElementById('contentInner');
+const sidebarNav = document.getElementById('sidebarNav');
+const sidebar = document.getElementById('sidebar');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+
+let currentIndex = 0;
+const cache = {};
+
+// ===== Build sidebar =====
+function buildSidebar() {
+  PAGES.forEach(page => {
+    if (page === null) {
+      const div = document.createElement('div');
+      div.className = 'divider';
+      sidebarNav.appendChild(div);
+      return;
+    }
+    const a = document.createElement('a');
+    a.href = '#' + page.id;
+    a.textContent = page.name;
+    a.dataset.id = page.id;
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      const idx = NAV_PAGES.findIndex(p => p.id === page.id);
+      if (idx !== -1) navigateTo(idx);
+      closeSidebar();
+    });
+    sidebarNav.appendChild(a);
+  });
+}
+
+// ===== Sidebar mobile toggle =====
+function openSidebar() {
+  sidebar.classList.add('open');
+  sidebarOverlay.classList.add('active');
+}
+
+function closeSidebar() {
+  sidebar.classList.remove('open');
+  sidebarOverlay.classList.remove('active');
+}
+
+hamburgerBtn.addEventListener('click', () => {
+  sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
+});
+sidebarOverlay.addEventListener('click', closeSidebar);
+
+// ===== Update UI state =====
+function updateUI() {
+  const page = NAV_PAGES[currentIndex];
+
+  sidebarNav.querySelectorAll('a').forEach(a => {
+    a.classList.toggle('active', a.dataset.id === page.id);
+  });
+
+  history.replaceState(null, '', '#' + page.id);
+  document.querySelector('.content-area').scrollTop = 0;
+
+  // Scroll active sidebar item into view
+  const activeLink = sidebarNav.querySelector('a.active');
+  if (activeLink) activeLink.scrollIntoView({ block: 'nearest' });
+}
+
+// ===== Fetch and extract content =====
+async function fetchPage(page) {
+  if (cache[page.id]) return cache[page.id];
+
+  const resp = await fetch(page.file);
+  if (!resp.ok) throw new Error(`${resp.status} ${resp.statusText}`);
+  let html = await resp.text();
+
+  let content;
+  if (page.type === 'walk') {
+    content = extractWalkthrough(html, page);
+  } else {
+    content = extractInfo(html, page);
+  }
+
+  cache[page.id] = content;
+  return content;
+}
+
+function extractInfo(html, page) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html');
+
+  let td = doc.querySelector('td.content');
+  if (!td) {
+    // Fallback: find the wobjectArticle div
+    const div = doc.querySelector('.wobjectArticle');
+    if (div) return stripPresentational(div.innerHTML);
+    // Last resort: last td
+    const tds = doc.querySelectorAll('td');
+    td = tds[tds.length - 1];
+  }
+  if (!td) return '<p>콘텐츠를 불러올 수 없습니다.</p>';
+  return stripPresentational(td.innerHTML);
+}
+
+function stripPresentational(html) {
+  html = html.replace(/\s*bgcolor\s*=\s*["']?[^"'\s>]+["']?/gi, '');
+  html = html.replace(/\s*background\s*=\s*["']?[^"'\s>]+["']?/gi, '');
+  return html;
+}
+
+function extractWalkthrough(html, page) {
+  // Use regex to find the content between <TD class=text> ... </TD>
+  // This preserves the original malformed HTML which browsers render correctly
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html');
+
+  // Find td.text which wraps the main walkthrough content
+  let td = doc.querySelector('td.text');
+  if (!td) {
+    // Fallback: try finding the cellspacing=3 table
+    const table = doc.querySelector('table[cellspacing="3"]');
+    if (table) td = table;
+  }
+  if (!td) return '<p>콘텐츠를 불러올 수 없습니다.</p>';
+
+  let content = td.innerHTML;
+
+  // Fix image paths: walkthrough files are in file/ directory
+  // Images reference pic/... so we need file/pic/...
+  content = fixWalkPaths(content);
+
+  return '<div class="walk-content">' + content + '</div>';
+}
+
+function fixWalkPaths(html) {
+  // Fix image src: pic/xxx -> file/pic/xxx and pic\xxx -> file/pic/xxx
+  html = html.replace(/src="pic([/\\])/gi, 'src="file/pic/');
+  html = html.replace(/src='pic([/\\])/gi, "src='file/pic/");
+  // Handle unquoted: src=pic/xxx or src=pic\xxx
+  html = html.replace(/src=pic([/\\])([^"'\s>]+)/gi, 'src="file/pic/$2"');
+
+  // Fix href for sub-dialogue links (e.g., a.html -> file/a.html)
+  // Only fix relative links that don't already have file/ prefix
+  html = html.replace(/href="([a-z0-9]+\.(html?))"/gi, 'href="file/$1" target="_blank"');
+  html = html.replace(/href='([a-z0-9]+\.(html?))'/gi, "href='file/$1' target='_blank'");
+
+  // Strip presentational attributes that conflict with dark theme
+  html = html.replace(/\s*bgcolor\s*=\s*["']?[^"'\s>]+["']?/gi, '');
+  html = html.replace(/\s*background\s*=\s*["']?[^"'\s>]+["']?/gi, '');
+  html = html.replace(/\s*bordercolor\w*\s*=\s*["']?[^"'\s>]+["']?/gi, '');
+  html = html.replace(/\s*border\s*=\s*["']?[^"'\s>]+["']?/gi, '');
+
+  return html;
+}
+
+// ===== Navigate =====
+async function navigateTo(index) {
+  if (index < 0 || index >= NAV_PAGES.length) return;
+
+  const page = NAV_PAGES[index];
+  currentIndex = index;
+
+  // Fade out
+  contentEl.classList.add('fading');
+  await new Promise(r => setTimeout(r, 200));
+
+  try {
+    contentEl.innerHTML = '<div class="loading">불러오는 중...</div>';
+    contentEl.classList.remove('fading');
+
+    const content = await fetchPage(page);
+
+    contentEl.classList.add('fading');
+    await new Promise(r => setTimeout(r, 80));
+    contentEl.innerHTML = content;
+    contentEl.classList.remove('fading');
+  } catch (err) {
+    contentEl.innerHTML = `<div class="error-msg">페이지를 불러올 수 없습니다.<br><small>${err.message}</small></div>`;
+    contentEl.classList.remove('fading');
+  }
+
+  updateUI();
+}
+
+// ===== Event listeners =====
+document.addEventListener('keydown', (e) => {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+  if (e.key === 'ArrowLeft') navigateTo(currentIndex - 1);
+  if (e.key === 'ArrowRight') navigateTo(currentIndex + 1);
+});
+
+// ===== Hash routing =====
+function getIndexFromHash() {
+  const hash = location.hash.replace('#', '');
+  if (!hash) return 0;
+  const idx = NAV_PAGES.findIndex(p => p.id === hash);
+  return idx >= 0 ? idx : 0;
+}
+
+window.addEventListener('hashchange', () => {
+  const idx = getIndexFromHash();
+  if (idx !== currentIndex) navigateTo(idx);
+});
+
+// ===== Init =====
+buildSidebar();
+navigateTo(getIndexFromHash());
+</script>
+</body>
+</html>
