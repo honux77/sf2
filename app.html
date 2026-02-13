@@ -351,6 +351,13 @@ html, body {
   display: inline;
 }
 
+/* Placeholder portrait (none.jpg / none.jpeg) */
+.walk-content tr[valign="top"] td:first-child img[src*="none."] {
+  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='52' height='66' viewBox='0 0 52 66'%3E%3Crect fill='%231a1a2e' width='52' height='66'/%3E%3Ccircle cx='26' cy='22' r='10' fill='%232a2a45'/%3E%3Cellipse cx='26' cy='52' rx='16' ry='14' fill='%232a2a45'/%3E%3C/svg%3E");
+  background: var(--bg-sidebar);
+  border-color: var(--text-dim) !important;
+}
+
 /* Dialog text column - alternate row colors */
 .walk-content tr[valign="top"]:nth-child(odd) td:last-child {
   background: var(--dialog-odd) !important;
@@ -999,6 +1006,11 @@ function fixWalkPaths(html) {
   html = html.replace(/href=["']([a-z0-9]+\.(html?))["']/gi, (match, file) => {
     return `href="#" onclick="openSubDialog('file/${file}',this);return false"`;
   });
+
+  // Insert placeholder image in empty portrait TDs
+  // Empty TD before a textG dialogue TD means a missing portrait
+  html = html.replace(/<TD(\s+width\s*=\s*64)?\s*>\s*<\/TD>(\s*<TD\s+class=textG)/gi,
+    '<TD$1><IMG height=78 src="file/pic/none.jpg" width=62></TD>$2');
 
   // Strip presentational attributes that conflict with dark theme
   html = html.replace(/\s*bgcolor\s*=\s*["']?[^"'\s>]+["']?/gi, '');
