@@ -39,11 +39,99 @@ html, body {
   line-height: 1.7;
 }
 
+/* ===== BGM Player ===== */
+.bgm-player {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 36px;
+  background: rgba(15, 15, 26, 0.92);
+  border-bottom: 1px solid var(--gold-dim);
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  z-index: 1100;
+  gap: 4px;
+}
+
+.bgm-player button {
+  background: none;
+  border: none;
+  color: var(--gold);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 2px 6px;
+  line-height: 1;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.bgm-player button:hover {
+  opacity: 1;
+}
+
+.bgm-track-name {
+  color: var(--text-dim);
+  font-size: 0.78rem;
+  margin-left: 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+.bgm-volume-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 8px;
+  flex-shrink: 0;
+}
+
+.bgm-volume-icon {
+  color: var(--gold-dim);
+  font-size: 0.85rem;
+  line-height: 1;
+  cursor: default;
+}
+
+.bgm-volume {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 70px;
+  height: 4px;
+  background: var(--gold-dim);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.bgm-volume::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  background: var(--gold);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.bgm-volume::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  background: var(--gold);
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+}
+
 /* ===== Layout ===== */
 .app {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  margin-top: 36px;
 }
 
 .hamburger {
@@ -148,6 +236,15 @@ html, body {
   padding-bottom: 10px;
   border-bottom: 1px solid var(--gold-dim);
   text-shadow: 0 0 15px rgba(240, 192, 64, 0.3);
+}
+
+.home-hero {
+  float: right;
+  margin: 0 0 16px 20px;
+  width: 200px;
+  border-radius: 8px;
+  border: 2px solid var(--gold-dim);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
 
 .content-inner h2, .content-inner h3 {
@@ -512,16 +609,21 @@ html, body {
 
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
+  .bgm-track-name {
+    font-size: 0.72rem;
+  }
+
   .hamburger {
     display: block;
+    top: 46px;
   }
 
   .sidebar {
     position: fixed;
-    top: 0;
+    top: 36px;
     left: -260px;
     width: 260px;
-    height: 100%;
+    height: calc(100% - 36px);
     z-index: 1000;
     transition: left 0.3s ease;
     box-shadow: none;
@@ -634,6 +736,16 @@ html, body {
 </style>
 </head>
 <body>
+<div class="bgm-player">
+  <button id="bgmPrev" title="이전 곡">&#9198;</button>
+  <button id="bgmPlayPause" title="재생/일시정지">&#9654;</button>
+  <button id="bgmNext" title="다음 곡">&#9197;</button>
+  <span class="bgm-track-name" id="bgmTrackName">BGM</span>
+  <span class="bgm-volume-group">
+    <span class="bgm-volume-icon" id="bgmVolumeIcon">&#128264;</span>
+    <input type="range" class="bgm-volume" id="bgmVolume" min="0" max="1" step="0.05" value="0.5" title="볼륨">
+  </span>
+</div>
 <div class="app">
   <div class="main">
     <button class="hamburger" id="hamburgerBtn" aria-label="메뉴">&#9776;</button>
@@ -768,6 +880,10 @@ async function fetchPage(page) {
     content = extractWalkthrough(html, page);
   } else {
     content = extractInfo(html, page);
+  }
+
+  if (page.id === 'home') {
+    content = content.replace(/(<h1[\s\S]*?<\/h1>)/i, '$1<img src="sforce2.jpg" class="home-hero" alt="샤이닝 포스 2">');
   }
 
   cache[page.id] = content;
@@ -1165,6 +1281,101 @@ window.addEventListener('hashchange', () => {
   const idx = getIndexFromHash();
   if (idx !== currentIndex) navigateTo(idx);
 });
+
+// ===== BGM Player =====
+const BGM_FILES = [
+  '001_01_-_Intro.m4a','002_02_-_Title_Screen.m4a','003_03_-_Witchs_Theme.m4a',
+  '004_04_-_Lively_Town.m4a','005_05_-_Castle.m4a','006_06_-_Attack.m4a',
+  '007_07_-_Promoted_Attack.m4a','008_08_-_Enemy_Attack.m4a','009_09_-_Into_the_Darkness.m4a',
+  '010_10_-_Wandering_Warriors.m4a','011_11_-_To_Arms.m4a','012_12_-_HQ.m4a',
+  '013_13_-_Character_Joins.m4a','014_14_-_A_Sorrowful_Join.m4a','015_15_-_Item.m4a',
+  '016_16_-_Promotion.m4a','017_17_-_Revive.m4a','018_17a_-_Revive_(Game_Version).m4a',
+  '019_18_-_Save.m4a','020_19_-_Dying_Wishes.m4a','021_20_-_Devastated_People.m4a',
+  '022_21_-_Their_Last_Breath.m4a','023_22_-_Shrine.m4a','024_23_-_Mitulas_Shrine.m4a',
+  '025_24_-_Elven_Town.m4a','026_25_-_Mithril_Diggers.m4a','027_26_-_Piano.m4a',
+  '028_27_-_Panic.m4a','029_28_-_Final_Battle.m4a','030_29_-_Zeon.m4a',
+  '031_30_-_Water_Goddess_Mitula.m4a','032_31_-_Ending.m4a',
+  '033_32_-_Enough_for_One_Day....m4a','034_33_-_What.m4a',
+  '035_34_-_Detox.m4a','036_35_-_Cursed.m4a'
+];
+
+const bgmAudio = new Audio();
+let bgmShuffled = [];
+let bgmIndex = 0;
+let bgmPlaying = false;
+
+const bgmPlayPauseBtn = document.getElementById('bgmPlayPause');
+const bgmTrackNameEl = document.getElementById('bgmTrackName');
+
+function bgmShuffle() {
+  bgmShuffled = BGM_FILES.slice();
+  for (let i = bgmShuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [bgmShuffled[i], bgmShuffled[j]] = [bgmShuffled[j], bgmShuffled[i]];
+  }
+}
+
+function bgmTrackTitle(filename) {
+  // Remove number prefix and extension: "005_05_-_Castle.m4a" -> "Castle"
+  return filename.replace(/\.m4a$/i, '').replace(/^\d+_\d+[a-z]?_-_/, '').replace(/_/g, ' ');
+}
+
+function bgmLoad(index) {
+  bgmIndex = index;
+  const file = bgmShuffled[bgmIndex];
+  bgmAudio.src = 'bgm/' + file;
+  bgmTrackNameEl.textContent = bgmTrackTitle(file);
+}
+
+function bgmPlay() {
+  bgmAudio.play();
+  bgmPlaying = true;
+  bgmPlayPauseBtn.textContent = '\u23F8';
+}
+
+function bgmPause() {
+  bgmAudio.pause();
+  bgmPlaying = false;
+  bgmPlayPauseBtn.textContent = '\u25B6';
+}
+
+function bgmNext() {
+  bgmIndex = (bgmIndex + 1) % bgmShuffled.length;
+  bgmLoad(bgmIndex);
+  if (bgmPlaying) bgmPlay();
+}
+
+function bgmPrev() {
+  bgmIndex = (bgmIndex - 1 + bgmShuffled.length) % bgmShuffled.length;
+  bgmLoad(bgmIndex);
+  if (bgmPlaying) bgmPlay();
+}
+
+bgmAudio.addEventListener('ended', bgmNext);
+
+document.getElementById('bgmPlayPause').addEventListener('click', () => {
+  if (bgmPlaying) bgmPause(); else bgmPlay();
+});
+document.getElementById('bgmNext').addEventListener('click', bgmNext);
+document.getElementById('bgmPrev').addEventListener('click', bgmPrev);
+
+const bgmVolumeEl = document.getElementById('bgmVolume');
+const bgmVolumeIcon = document.getElementById('bgmVolumeIcon');
+bgmAudio.volume = 0.5;
+
+function updateVolumeIcon(v) {
+  bgmVolumeIcon.textContent = v === 0 ? '\u{1F507}' : v < 0.5 ? '\u{1F508}' : '\u{1F509}';
+}
+updateVolumeIcon(0.5);
+
+bgmVolumeEl.addEventListener('input', (e) => {
+  const v = parseFloat(e.target.value);
+  bgmAudio.volume = v;
+  updateVolumeIcon(v);
+});
+
+bgmShuffle();
+bgmLoad(0);
 
 // ===== Init =====
 buildSidebar();
