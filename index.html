@@ -134,20 +134,22 @@ html, body {
   margin-top: 36px;
 }
 
-.hamburger {
+.bgm-player .hamburger {
   display: none;
-  position: fixed;
-  top: 10px;
-  left: 10px;
-  z-index: 1001;
-  background: var(--bg-sidebar);
+  background: none;
   border: 1px solid var(--gold-dim);
-  color: var(--gold);
-  font-size: 1.4rem;
-  padding: 4px 10px;
   border-radius: 4px;
+  color: var(--gold);
+  font-size: 1.2rem;
+  padding: 2px 8px;
   cursor: pointer;
   line-height: 1;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.hamburger:hover {
+  opacity: 1;
 }
 
 .main {
@@ -613,9 +615,8 @@ html, body {
     font-size: 0.72rem;
   }
 
-  .hamburger {
+  .bgm-player .hamburger {
     display: block;
-    top: 46px;
   }
 
   .sidebar {
@@ -737,6 +738,7 @@ html, body {
 </head>
 <body>
 <div class="bgm-player">
+  <button class="hamburger" id="hamburgerBtn" aria-label="메뉴">&#9776;</button>
   <button id="bgmPrev" title="이전 곡">&#9198;</button>
   <button id="bgmPlayPause" title="재생/일시정지">&#9654;</button>
   <button id="bgmNext" title="다음 곡">&#9197;</button>
@@ -748,7 +750,6 @@ html, body {
 </div>
 <div class="app">
   <div class="main">
-    <button class="hamburger" id="hamburgerBtn" aria-label="메뉴">&#9776;</button>
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
     <aside class="sidebar" id="sidebar">
       <nav id="sidebarNav"></nav>
