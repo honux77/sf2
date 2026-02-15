@@ -96,48 +96,88 @@
     }
 
     .bgm-volume-group {
+      position: relative;
       display: flex;
       align-items: center;
-      gap: 4px;
-      margin-left: 8px;
+      margin-left: 4px;
       flex-shrink: 0;
     }
 
+    .bgm-volume-popover {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(15, 15, 26, 0.98);
+      border: 1px solid var(--gold-dim);
+      border-radius: 8px;
+      padding: 20px 10px;
+      margin-top: 8px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+      z-index: 1200;
+      height: 140px;
+      width: 40px;
+      justify-content: center;
+    }
+
+    .bgm-volume-popover.active {
+      display: flex;
+    }
+
+    .bgm-volume-popover::after {
+      content: '';
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 6px solid transparent;
+      border-bottom-color: var(--gold-dim);
+    }
+
     .bgm-volume-icon {
-      color: var(--gold-dim);
-      font-size: 0.85rem;
-      line-height: 1;
-      cursor: default;
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s;
     }
 
     .bgm-volume {
       -webkit-appearance: none;
       appearance: none;
-      width: 70px;
+      width: 100px;
       height: 4px;
       background: var(--gold-dim);
       border-radius: 2px;
       outline: none;
       cursor: pointer;
-      flex-shrink: 0;
+      transform: rotate(-90deg);
+      margin: 0;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-90deg);
     }
 
     .bgm-volume::-webkit-slider-thumb {
       -webkit-appearance: none;
-      width: 12px;
-      height: 12px;
+      width: 14px;
+      height: 14px;
       background: var(--gold);
       border-radius: 50%;
       cursor: pointer;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
     }
 
     .bgm-volume::-moz-range-thumb {
-      width: 12px;
-      height: 12px;
+      width: 14px;
+      height: 14px;
       background: var(--gold);
       border-radius: 50%;
       border: none;
       cursor: pointer;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
     }
 
     /* ===== Layout ===== */
@@ -180,6 +220,36 @@
       overflow-y: auto;
       flex-shrink: 0;
       padding: 8px 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding: 16px 18px;
+      border-top: 1px solid rgba(240, 192, 64, 0.2);
+    }
+
+    .bmc-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--gold);
+      text-decoration: none;
+      font-size: 0.82rem;
+      opacity: 0.7;
+      transition: all 0.2s;
+    }
+
+    .bmc-link:hover {
+      opacity: 1;
+      transform: translateY(-1px);
+    }
+
+    .bmc-link svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
     }
 
     .sidebar-overlay {
@@ -779,21 +849,34 @@
       </svg>
     </button>
     <span class="bgm-track-name" id="bgmTrackName">BGM</span>
-    <span class="bgm-volume-group">
-      <span class="bgm-volume-icon" id="bgmVolumeIcon">
-        <svg viewBox="0 0 24 24">
-          <path
-            d="M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zm-2 0L7.41 7.23H3v10.54h4.41L12 21.77V3.23z" />
-        </svg>
-      </span>
-      <input type="range" class="range" id="bgmVolume" min="0" max="1" step="0.05" value="0.5" title="볼륨">
-    </span>
+    <div class="bgm-volume-group">
+      <button id="bgmVolumeBtn" title="볼륨">
+        <span class="bgm-volume-icon" id="bgmVolumeIcon">
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zm-2 0L7.41 7.23H3v10.54h4.41L12 21.77V3.23z" />
+          </svg>
+        </span>
+      </button>
+      <div class="bgm-volume-popover" id="bgmVolumePopover">
+        <input type="range" class="bgm-volume" id="bgmVolume" min="0" max="1" step="0.05" value="0.5" title="볼륨">
+      </div>
+    </div>
   </div>
   <div class="app">
     <div class="main">
       <div class="sidebar-overlay" id="sidebarOverlay"></div>
       <aside class="sidebar" id="sidebar">
         <nav id="sidebarNav"></nav>
+        <div class="sidebar-footer">
+          <a href="https://buymeacoffee.com/honux77o" target="_blank" class="bmc-link">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M20.216 6.415l-.132-.666c-.209-1.04-1.233-1.749-2.273-1.54l-.744.148C16.892 2.015 15.011.5 12.871.5h-5.91C4.787.5 3.012 2.275 3.012 4.451v12.013c0 2.176 1.775 3.951 3.949 3.951h8.91c2.174 0 3.949-1.775 3.949-3.951v-.51c1.85-.35 3.174-1.97 3.174-3.868v-3.41c0-1.02-.682-1.92-1.66-2.25l-.121-.01zm-1.637-.624c.73-.146 1.448.351 1.594 1.08l.132.666c.146.73-.351 1.448-1.08 1.594l-.744.148c-.146.029-.481.096-.481.096l-.132-.666s-.066-.334-.029-.481l.74-.147zm-1.579 10.673c0 1.076-.873 1.951-1.949 1.951H7.012c-1.076 0-1.949-.875-1.949-1.951V4.451c0-1.076.873-1.951 1.949-1.951h5.91c1.076 0 1.949.875 1.949 1.951v12.013z" />
+            </svg>
+            <span>커피 한 잔 사주기</span>
+          </a>
+        </div>
       </aside>
       <div class="content-wrapper">
         <div class="content-area">
@@ -819,7 +902,7 @@
 
   <script>
     const PAGES = [
-      { id: 'home', file: 'pages/샤이닝포스2공략.html', name: '처음', type: 'info' },
+      { id: 'home', file: 'pages/home.html', name: '처음', type: 'info' },
       { id: 'faq', file: 'pages/faq.html', name: '자주묻는질문', type: 'info' },
       { id: 'play', file: 'pages/play.html', name: '게임방법', type: 'info' },
       { id: 'char', file: 'pages/char.html', name: '캐릭터', type: 'info' },
@@ -1403,6 +1486,9 @@
 
     const bgmVolumeEl = document.getElementById('bgmVolume');
     const bgmVolumeIcon = document.getElementById('bgmVolumeIcon');
+    const bgmVolumeBtn = document.getElementById('bgmVolumeBtn');
+    const bgmVolumePopover = document.getElementById('bgmVolumePopover');
+
     bgmAudio.volume = 0.5;
 
     function updateVolumeIcon(v) {
@@ -1418,6 +1504,22 @@
       bgmAudio.volume = v;
       updateVolumeIcon(v);
     });
+
+    // Toggle popover
+    bgmVolumeBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      bgmVolumePopover.classList.toggle('active');
+    });
+
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+      if (!bgmVolumePopover.contains(e.target) && !bgmVolumeBtn.contains(e.target)) {
+        bgmVolumePopover.classList.remove('active');
+      }
+    });
+
+    // Stop propagation inside popover so clicking the slider doesn't close it
+    bgmVolumePopover.addEventListener('click', (e) => e.stopPropagation());
 
     bgmShuffle();
     bgmLoad(0);
