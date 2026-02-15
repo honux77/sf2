@@ -181,6 +181,37 @@
       box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
     }
 
+    /* ===== Language Switcher ===== */
+    .lang-switcher {
+      display: flex;
+      gap: 4px;
+      margin-left: auto;
+      margin-right: 8px;
+    }
+
+    .lang-btn {
+      background: none;
+      border: 1px solid var(--gold-dim);
+      border-radius: 4px;
+      color: var(--text-dim);
+      font-size: 0.75rem;
+      padding: 2px 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .lang-btn:hover {
+      color: var(--gold);
+      border-color: var(--gold);
+    }
+
+    .lang-btn.active {
+      background: var(--gold-dim);
+      color: var(--bg-deep);
+      border-color: var(--gold);
+      font-weight: 600;
+    }
+
     /* ===== Layout ===== */
     .app {
       display: flex;
@@ -863,6 +894,11 @@
         <input type="range" class="bgm-volume" id="bgmVolume" min="0" max="1" step="0.05" value="0.5" title="볼륨">
       </div>
     </div>
+    <div class="lang-switcher" id="langSwitcher">
+      <button class="lang-btn" data-lang="ko" title="한국어">KO</button>
+      <button class="lang-btn" data-lang="en" title="English">EN</button>
+      <button class="lang-btn" data-lang="ja" title="日本語">JA</button>
+    </div>
   </div>
   <div class="app">
     <div class="main">
@@ -903,27 +939,66 @@
 
   <script>
     const PAGES = [
-      { id: 'home', file: 'pages/home.html', name: '처음', type: 'info' },
-      { id: 'faq', file: 'pages/faq.html', name: '자주묻는질문', type: 'info' },
-      { id: 'play', file: 'pages/play.html', name: '게임방법', type: 'info' },
-      { id: 'char', file: 'pages/char.html', name: '캐릭터', type: 'info' },
-      { id: 'magic', file: 'pages/magic.html', name: '마법', type: 'info' },
-      { id: 'item', file: 'pages/item.html', name: '아이템', type: 'info' },
-      { id: 'mithril', file: 'pages/mithril.html', name: '미스릴', type: 'info' },
+      { id: 'home', file: 'pages/home.html', name: { ko: '처음', en: 'Home', ja: 'ホーム' }, type: 'info' },
+      { id: 'faq', file: 'pages/faq.html', name: { ko: '자주묻는질문', en: 'FAQ', ja: 'FAQ' }, type: 'info' },
+      { id: 'play', file: 'pages/play.html', name: { ko: '게임방법', en: 'Gameplay', ja: '遊び方' }, type: 'info' },
+      { id: 'char', file: 'pages/char.html', name: { ko: '캐릭터', en: 'Characters', ja: 'キャラクター' }, type: 'info' },
+      { id: 'magic', file: 'pages/magic.html', name: { ko: '마법', en: 'Magic', ja: '魔法' }, type: 'info' },
+      { id: 'item', file: 'pages/item.html', name: { ko: '아이템', en: 'Items', ja: '道具' }, type: 'info' },
+      { id: 'mithril', file: 'pages/mithril.html', name: { ko: '미스릴', en: 'Mithril', ja: 'ミスリル' }, type: 'info' },
       null, // divider
-      { id: 'pro', file: 'file/pro.html', name: '프롤로그', type: 'walk' },
-      { id: 'ch1', file: 'file/1.html', name: '공략 1/8', type: 'walk' },
-      { id: 'ch2', file: 'file/2.html', name: '공략 2/8', type: 'walk' },
-      { id: 'ch3', file: 'file/3.html', name: '공략 3/8', type: 'walk' },
-      { id: 'ch4', file: 'file/4.html', name: '공략 4/8', type: 'walk' },
-      { id: 'ch5', file: 'file/5.html', name: '공략 5/8', type: 'walk' },
-      { id: 'ch6', file: 'file/6.html', name: '공략 6/8', type: 'walk' },
-      { id: 'ch7', file: 'file/7.htm', name: '공략 7/8', type: 'walk' },
-      { id: 'ch8', file: 'file/8.htm', name: '공략 8/8', type: 'walk' },
-      { id: 'epi', file: 'file/epi.html', name: '에필로그', type: 'walk' },
+      { id: 'pro', file: 'file/pro.html', name: { ko: '프롤로그', en: 'Prologue', ja: 'プロローグ' }, type: 'walk' },
+      { id: 'ch1', file: 'file/1.html', name: { ko: '공략 1/8', en: 'Walkthrough 1/8', ja: '攻略 1/8' }, type: 'walk' },
+      { id: 'ch2', file: 'file/2.html', name: { ko: '공략 2/8', en: 'Walkthrough 2/8', ja: '攻略 2/8' }, type: 'walk' },
+      { id: 'ch3', file: 'file/3.html', name: { ko: '공략 3/8', en: 'Walkthrough 3/8', ja: '攻略 3/8' }, type: 'walk' },
+      { id: 'ch4', file: 'file/4.html', name: { ko: '공략 4/8', en: 'Walkthrough 4/8', ja: '攻略 4/8' }, type: 'walk' },
+      { id: 'ch5', file: 'file/5.html', name: { ko: '공략 5/8', en: 'Walkthrough 5/8', ja: '攻略 5/8' }, type: 'walk' },
+      { id: 'ch6', file: 'file/6.html', name: { ko: '공략 6/8', en: 'Walkthrough 6/8', ja: '攻略 6/8' }, type: 'walk' },
+      { id: 'ch7', file: 'file/7.htm', name: { ko: '공략 7/8', en: 'Walkthrough 7/8', ja: '攻略 7/8' }, type: 'walk' },
+      { id: 'ch8', file: 'file/8.htm', name: { ko: '공략 8/8', en: 'Walkthrough 8/8', ja: '攻略 8/8' }, type: 'walk' },
+      { id: 'epi', file: 'file/epi.html', name: { ko: '에필로그', en: 'Epilogue', ja: 'エピローグ' }, type: 'walk' },
       null, // divider
-      { id: 'credit', file: 'pages/credit.html', name: '후기', type: 'info' },
+      { id: 'credit', file: 'pages/credit.html', name: { ko: '후기', en: 'Credits', ja: '後記' }, type: 'info' },
     ];
+
+    const I18N = {
+      ko: {
+        loading: '불러오는 중...',
+        error: '페이지를 불러올 수 없습니다.',
+        menu: '메뉴',
+        prev: '이전 곡',
+        next: '다음 곡',
+        playPause: '재생/일시정지',
+        volume: '볼륨',
+        magicUsable: '사용 가능:',
+        magicDesc: '설명:',
+        magicCol: ['마법', 'Lv', 'MP', '거리', '범위', '효과'],
+      },
+      en: {
+        loading: 'Loading...',
+        error: 'Could not load page.',
+        menu: 'Menu',
+        prev: 'Prev Track',
+        next: 'Next Track',
+        playPause: 'Play/Pause',
+        volume: 'Volume',
+        magicUsable: 'Usable by:',
+        magicDesc: 'Description:',
+        magicCol: ['Magic', 'Lv', 'MP', 'Range', 'Area', 'Effect'],
+      },
+      ja: {
+        loading: '読み込み中...',
+        error: 'ページを読み込めませんでした。',
+        menu: 'メニュー',
+        prev: '前の曲',
+        next: '次の曲',
+        playPause: '再生/一時停止',
+        volume: '音量',
+        magicUsable: '使用可能:',
+        magicDesc: '説明:',
+        magicCol: ['魔法', 'Lv', 'MP', '距離', '範囲', '効果'],
+      }
+    };
 
     const NAV_PAGES = PAGES.filter(p => p !== null);
 
@@ -934,10 +1009,12 @@
     const hamburgerBtn = document.getElementById('hamburgerBtn');
 
     let currentIndex = 0;
+    let currentLang = localStorage.getItem('sf2_lang') || 'ko';
     const cache = {};
 
     // ===== Build sidebar =====
     function buildSidebar() {
+      sidebarNav.innerHTML = '';
       PAGES.forEach(page => {
         if (page === null) {
           const div = document.createElement('div');
@@ -947,7 +1024,7 @@
         }
         const a = document.createElement('a');
         a.href = '#' + page.id;
-        a.textContent = page.name;
+        a.textContent = page.name[currentLang] || page.name['en'] || page.name['ko'];
         a.dataset.id = page.id;
         a.addEventListener('click', (e) => {
           e.preventDefault();
@@ -958,6 +1035,46 @@
         sidebarNav.appendChild(a);
       });
     }
+
+    // ===== Language selection =====
+    function updateStaticUI() {
+      // Update language switcher UI
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === currentLang);
+      });
+
+      // Update static UI text
+      const t = I18N[currentLang];
+      if (!t) return;
+
+      if (hamburgerBtn) hamburgerBtn.title = t.menu;
+      const bgmPrev = document.getElementById('bgmPrev');
+      if (bgmPrev) bgmPrev.title = t.prev;
+      const bgmNext = document.getElementById('bgmNext');
+      if (bgmNext) bgmNext.title = t.next;
+      const bgmPlayPause = document.getElementById('bgmPlayPause');
+      if (bgmPlayPause) bgmPlayPause.title = t.playPause;
+      const bgmVolumeBtn = document.getElementById('bgmVolumeBtn');
+      if (bgmVolumeBtn) bgmVolumeBtn.title = t.volume;
+      const bgmVolume = document.getElementById('bgmVolume');
+      if (bgmVolume) bgmVolume.title = t.volume;
+      const bmcSpan = document.querySelector('.sidebar-footer span');
+      if (bmcSpan) bmcSpan.textContent = t.bmc;
+    }
+
+    function changeLanguage(lang) {
+      if (lang === currentLang) return;
+      currentLang = lang;
+      localStorage.setItem('sf2_lang', lang);
+
+      updateStaticUI();
+      buildSidebar();
+      navigateTo(currentIndex, true); // Force reload
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => changeLanguage(btn.dataset.lang));
+    });
 
     // ===== Sidebar mobile toggle =====
     function openSidebar() {
@@ -992,10 +1109,22 @@
     }
 
     // ===== Fetch and extract content =====
-    async function fetchPage(page) {
-      if (cache[page.id]) return cache[page.id];
+    async function fetchPage(page, force = false) {
+      const cacheKey = `${page.id}_${currentLang}`;
+      if (!force && cache[cacheKey]) return cache[cacheKey];
 
-      const resp = await fetch(page.file);
+      let filePath = page.file;
+      if (currentLang !== 'ko') {
+        // Try language-specific path: pages/home.html -> pages/en/home.html
+        filePath = filePath.replace(/^pages\//, `pages/${currentLang}/`);
+        filePath = filePath.replace(/^file\//, `file/${currentLang}/`);
+      }
+
+      let resp = await fetch(filePath);
+      if (!resp.ok && currentLang !== 'ko') {
+        // Fallback to Korean if translation doesn't exist
+        resp = await fetch(page.file);
+      }
       if (!resp.ok) throw new Error(`${resp.status} ${resp.statusText}`);
       let html = await resp.text();
 
@@ -1029,7 +1158,7 @@
         const tds = doc.querySelectorAll('td');
         td = tds[tds.length - 1];
       }
-      if (!td) return '<p>콘텐츠를 불러올 수 없습니다.</p>';
+      if (!td) return `<p>${I18N[currentLang].error}</p>`;
       return stripPresentational(td.innerHTML);
     }
 
@@ -1045,7 +1174,8 @@
         preContent = mOpen[1];
       }
 
-      let out = '<h1>마법</h1>';
+      const tI18n = I18N[currentLang];
+      let out = `<h1>${PAGES.find(p => p && p.id === 'magic').name[currentLang]}</h1>`;
 
       const lines = preContent.split('\n');
       let i = 0;
@@ -1080,7 +1210,8 @@
 
       function buildSpellHTML(korName, enName, rows, chars, desc) {
         let h = '<table class="magic-table"><thead><tr>';
-        h += '<th>마법</th><th>Lv</th><th>MP</th><th>거리</th><th>범위</th><th>효과</th>';
+        const cols = tI18n.magicCol;
+        cols.forEach(c => h += `<th>${c}</th>`);
         h += '</tr></thead><tbody>';
         rows.forEach((r, idx) => {
           h += '<tr>';
@@ -1094,8 +1225,8 @@
         h += '</tbody></table>';
         if (chars || desc) {
           h += '<div class="magic-note">';
-          if (chars) h += `<span class="note-label">사용 가능:</span> <span class="note-chars">${chars}</span><br>`;
-          if (desc) h += `<span class="note-label">설명:</span> ${desc}`;
+          if (chars) h += `<span class="note-label">${tI18n.magicUsable}</span> <span class="note-chars">${chars}</span><br>`;
+          if (desc) h += `<span class="note-label">${tI18n.magicDesc}</span> ${desc}`;
           h += '</div>';
         }
         return h;
@@ -1248,27 +1379,39 @@
       // Handle unquoted: src=pic/xxx or src=pic\xxx
       html = html.replace(/src=pic([/\\])([^"'\s>]+)/gi, 'src="file/pic/$2"');
 
-      // Convert [다음]/[이전] navigation links to SPA navigation
-      html = html.replace(/href=["']([a-z0-9]+\.(html?))["'][^>]*>\s*\[다음\]/gi, (match, file) => {
+      // Convert [다음]/[이전], [Next]/[Back], [次へ]/[前へ] navigation links to SPA navigation
+      const nextLabels = '\\[다음\\]|\\[Next\\]|\\[次へ\\]';
+      const prevLabels = '\\[이전\\]|\\[Back\\]|\\[前へ\\]';
+      const nextRegex = new RegExp(`href=["']([a-z0-9]+\\.(html?))["'][^>]*>\\s*(${nextLabels})`, 'gi');
+      const prevRegex = new RegExp(`href=["']([a-z0-9]+\\.(html?))["'][^>]*>\\s*(${prevLabels})`, 'gi');
+
+      html = html.replace(nextRegex, (match, file) => {
         const pageId = WALK_FILE_TO_ID[file.toLowerCase()];
         if (pageId) {
           const idx = NAV_PAGES.findIndex(p => p.id === pageId);
-          return `href="#${pageId}" onclick="navigateTo(${idx});return false">[다음]`;
+          const label = match.split('>').pop().trim();
+          return `href="#${pageId}" onclick="navigateTo(${idx});return false">${label}`;
         }
         return match;
       });
-      html = html.replace(/href=["']([a-z0-9]+\.(html?))["'][^>]*>\s*\[이전\]/gi, (match, file) => {
+      html = html.replace(prevRegex, (match, file) => {
         const pageId = WALK_FILE_TO_ID[file.toLowerCase()];
         if (pageId) {
           const idx = NAV_PAGES.findIndex(p => p.id === pageId);
-          return `href="#${pageId}" onclick="navigateTo(${idx});return false">[이전]`;
+          const label = match.split('>').pop().trim();
+          return `href="#${pageId}" onclick="navigateTo(${idx});return false">${label}`;
         }
         return match;
       });
 
       // Convert sub-dialogue links to modal openers
       html = html.replace(/href=["']([a-z0-9]+\.(html?))["']/gi, (match, file) => {
-        return `href="#" onclick="openSubDialog('file/${file}',this);return false"`;
+        let subPath = `file/${file}`;
+        if (currentLang !== 'ko') {
+          // Note: Sub-dialogues might not be translated yet, so the modal fetch logic should handle fallback
+          subPath = `file/${currentLang}/${file}`;
+        }
+        return `href="#" onclick="openSubDialog('${subPath}',this);return false"`;
       });
 
       // Insert placeholder image in empty portrait TDs
@@ -1323,7 +1466,7 @@
     }
 
     // ===== Navigate =====
-    async function navigateTo(index) {
+    async function navigateTo(index, force = false) {
       if (index < 0 || index >= NAV_PAGES.length) return;
 
       const page = NAV_PAGES[index];
@@ -1333,18 +1476,20 @@
       contentEl.classList.add('fading');
       await new Promise(r => setTimeout(r, 200));
 
+      const tI18n = I18N[currentLang];
+
       try {
-        contentEl.innerHTML = '<div class="loading">불러오는 중...</div>';
+        contentEl.innerHTML = `<div class="loading">${tI18n.loading}</div>`;
         contentEl.classList.remove('fading');
 
-        const content = await fetchPage(page);
+        const content = await fetchPage(page, force);
 
         contentEl.classList.add('fading');
         await new Promise(r => setTimeout(r, 80));
         contentEl.innerHTML = content;
         contentEl.classList.remove('fading');
       } catch (err) {
-        contentEl.innerHTML = `<div class="error-msg">페이지를 불러올 수 없습니다.<br><small>${err.message}</small></div>`;
+        contentEl.innerHTML = `<div class="error-msg">${tI18n.error}<br><small>${err.message}</small></div>`;
         contentEl.classList.remove('fading');
       }
 
@@ -1369,7 +1514,7 @@
       // Get link text as modal title
       const title = linkEl ? linkEl.textContent.trim() : '';
       modalTitle.textContent = title;
-      modalBody.innerHTML = '<div class="loading">불러오는 중...</div>';
+      modalBody.innerHTML = `<div class="loading">${I18N[currentLang].loading}</div>`;
       modalOverlay.classList.add('active');
 
       try {
@@ -1378,7 +1523,7 @@
         const content = extractWalkthrough(html, { file: url, type: 'walk' });
         modalBody.innerHTML = content;
       } catch (e) {
-        modalBody.innerHTML = '<p>콘텐츠를 불러올 수 없습니다.</p>';
+        modalBody.innerHTML = `<p>${I18N[currentLang].error}</p>`;
       }
     }
 
@@ -1526,6 +1671,7 @@
     bgmLoad(0);
 
     // ===== Init =====
+    updateStaticUI();
     buildSidebar();
     navigateTo(getIndexFromHash());
   </script>
