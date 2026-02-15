@@ -49,30 +49,40 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 36px;
-      background: rgba(15, 15, 26, 0.92);
+      height: 48px;
+      background: rgba(15, 15, 26, 0.95);
       border-bottom: 1px solid var(--gold-dim);
       display: flex;
       align-items: center;
       padding: 0 12px;
       z-index: 1100;
-      gap: 4px;
+      gap: 8px;
     }
 
     .bgm-player button {
       background: none;
       border: none;
       color: var(--gold);
-      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
-      padding: 2px 6px;
-      line-height: 1;
+      padding: 6px;
+      width: 40px;
+      height: 40px;
       opacity: 0.8;
-      transition: opacity 0.2s;
+      transition: all 0.2s;
     }
 
     .bgm-player button:hover {
       opacity: 1;
+      transform: scale(1.1);
+    }
+
+    .bgm-player button svg {
+      width: 28px;
+      height: 28px;
+      fill: currentColor;
     }
 
     .bgm-track-name {
@@ -135,7 +145,7 @@
       display: flex;
       flex-direction: column;
       height: 100vh;
-      margin-top: 36px;
+      margin-top: 48px;
     }
 
     .bgm-player .hamburger {
@@ -630,10 +640,10 @@
 
       .sidebar {
         position: fixed;
-        top: 36px;
+        top: 48px;
         left: -260px;
         width: 260px;
-        height: calc(100% - 36px);
+        height: calc(100% - 48px);
         z-index: 1000;
         transition: left 0.3s ease;
         box-shadow: none;
@@ -748,14 +758,35 @@
 
 <body>
   <div class="bgm-player">
-    <button class="hamburger" id="hamburgerBtn" aria-label="메뉴">&#9776;</button>
-    <button id="bgmPrev" title="이전 곡">&#9198;</button>
-    <button id="bgmPlayPause" title="재생/일시정지">&#9654;</button>
-    <button id="bgmNext" title="다음 곡">&#9197;</button>
+    <button class="hamburger" id="hamburgerBtn" aria-label="메뉴">
+      <svg viewBox="0 0 24 24">
+        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+      </svg>
+    </button>
+    <button id="bgmPrev" title="이전 곡">
+      <svg viewBox="0 0 24 24">
+        <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z" />
+      </svg>
+    </button>
+    <button id="bgmPlayPause" title="재생/일시정지">
+      <svg id="playIcon" viewBox="0 0 24 24">
+        <path d="M8 5v14l11-7z" />
+      </svg>
+    </button>
+    <button id="bgmNext" title="다음 곡">
+      <svg viewBox="0 0 24 24">
+        <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" />
+      </svg>
+    </button>
     <span class="bgm-track-name" id="bgmTrackName">BGM</span>
     <span class="bgm-volume-group">
-      <span class="bgm-volume-icon" id="bgmVolumeIcon">&#128264;</span>
-      <input type="range" class="bgm-volume" id="bgmVolume" min="0" max="1" step="0.05" value="0.5" title="볼륨">
+      <span class="bgm-volume-icon" id="bgmVolumeIcon">
+        <svg viewBox="0 0 24 24">
+          <path
+            d="M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zm-2 0L7.41 7.23H3v10.54h4.41L12 21.77V3.23z" />
+        </svg>
+      </span>
+      <input type="range" class="range" id="bgmVolume" min="0" max="1" step="0.05" value="0.5" title="볼륨">
     </span>
   </div>
   <div class="app">
@@ -1341,13 +1372,13 @@
     function bgmPlay() {
       bgmAudio.play();
       bgmPlaying = true;
-      bgmPlayPauseBtn.textContent = '\u23F8';
+      bgmPlayPauseBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
     }
 
     function bgmPause() {
       bgmAudio.pause();
       bgmPlaying = false;
-      bgmPlayPauseBtn.textContent = '\u25B6';
+      bgmPlayPauseBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
     }
 
     function bgmNext() {
@@ -1375,7 +1406,10 @@
     bgmAudio.volume = 0.5;
 
     function updateVolumeIcon(v) {
-      bgmVolumeIcon.textContent = v === 0 ? '\u{1F507}' : v < 0.5 ? '\u{1F508}' : '\u{1F509}';
+      let icon = '<svg viewBox="0 0 24 24"><path d="M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zm-2 0L7.41 7.23H3v10.54h4.41L12 21.77V3.23z"/></svg>';
+      if (v === 0) icon = '<svg viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zM12 3.23L7.41 7.23H3v10.54h4.41L12 21.77V3.23z"/></svg>';
+      else if (v < 0.5) icon = '<svg viewBox="0 0 24 24"><path d="M18.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM5 9v6h4l5 5V4L9 9H5z"/></svg>';
+      bgmVolumeIcon.innerHTML = icon;
     }
     updateVolumeIcon(0.5);
 
